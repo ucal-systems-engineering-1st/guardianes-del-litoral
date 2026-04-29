@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://o8y4olfrpou7"]
+
+[ext_resource type="PackedScene" uid="uid://cwvm4fbbd77sv" path="res://Scenes/Player/ship.tscn" id="1_4yebs"]
+[ext_resource type="Script" uid="uid://rbwxn7ifpxwj" path="res://Scripts/SeaWorld/sea.gd" id="1_qf70t"]
+[ext_resource type="Texture2D" uid="uid://utrxibwsnt5i" path="res://Resources/Rooms/mar1-Sheet.png" id="2_7ur65"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf70t"]
+atlas = ExtResource("2_7ur65")
+region = Rect2(0, 0, 1280, 720)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ndr1"]
+atlas = ExtResource("2_7ur65")
+region = Rect2(1280, 0, 1280, 720)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7yquu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qf70t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ndr1")
+}],
+"loop": true,
+"name": &"sea_movement",
+"speed": 2.0
+}]
+
+[node name="Sea" type="Node2D" unique_id=1723245433]
+script = ExtResource("1_qf70t")
+
+[node name="Ship" parent="." unique_id=1953170900 instance=ExtResource("1_4yebs")]
+position = Vector2(497, 430)
+
+[node name="Sea_bg" type="AnimatedSprite2D" parent="." unique_id=688049322]
+z_index = -1
+texture_filter = 1
+position = Vector2(643, 361)
+sprite_frames = SubResource("SpriteFrames_7yquu")
+animation = &"sea_movement"
+frame_progress = 0.5886859

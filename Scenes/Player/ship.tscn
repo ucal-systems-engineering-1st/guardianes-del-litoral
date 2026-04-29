@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cwvm4fbbd77sv"]
+
+[ext_resource type="Script" uid="uid://bhsqeufcegc44" path="res://Scripts/Player/shipController.gd" id="1_5ethb"]
+[ext_resource type="Texture2D" uid="uid://b4exc1utwl8h5" path="res://Resources/Player/ship_one.png" id="1_ql35g"]
+
+[node name="Ship" type="CharacterBody2D" unique_id=1953170900]
+script = ExtResource("1_5ethb")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1448218404]
+position = Vector2(1, 0)
+texture = ExtResource("1_ql35g")
