@@ -19,15 +19,25 @@ extends CharacterBody2D
 var target_position: Vector2
 var using_mouse := false
 
+var input_direction: Vector2 = Vector2.ZERO
+var last_direction: Vector2 = Vector2.DOWN
+
+# Flotación
+var float_time: float = 0.0
+@export var float_amplitude: float = 3.0
+@export var float_speed: float = 2.0
+var base_position_y: float
+
 func _ready():
 	target_position = global_position
+	base_position_y = sprite.position.y
 
 func _physics_process(delta):
 	var keyboard_dir = get_keyboard_direction()
 
-	# 🎯 PRIORIDAD: teclado
 	if keyboard_dir != Vector2.ZERO:
 		using_mouse = false
+		input_direction = keyboard_dir
 		velocity = keyboard_dir * speed
 	else:
 		handle_mouse_input()
@@ -35,20 +45,21 @@ func _physics_process(delta):
 
 	move_and_slide()
 	update_sprite()
+	update_float(delta)
 
-# 🧠 INPUT TECLADO (estable)
+# INPUT TECLADO
 func get_keyboard_direction() -> Vector2:
 	var x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
 	var y = int(Input.is_action_pressed("ui_down")) - int(Input.is_action_pressed("ui_up"))
 	return Vector2(x, y).normalized()
 
-# 🖱 INPUT MOUSE
+# INPUT MOUSE
 func handle_mouse_input():
 	if Input.is_action_just_pressed("mouse_left"):
 		target_position = get_global_mouse_position()
 		using_mouse = true
 
-# 🚶 Movimiento mouse
+# Movimiento mouse
 func move_to_target():
 	if not using_mouse:
 		velocity = Vector2.ZERO
@@ -62,34 +73,43 @@ func move_to_target():
 		velocity = Vector2.ZERO
 		return
 
-	velocity = direction.normalized() * speed
+	input_direction = direction.normalized()
+	velocity = input_direction * speed
 
-# 🎯 SPRITES (8 direcciones)
+# SPRITES (8 direcciones usando ángulo)
 func update_sprite():
-	if velocity == Vector2.ZERO:
-		return
+	var dir = input_direction
 
-	var dir = velocity.normalized()
+	if dir == Vector2.ZERO:
+		dir = last_direction
+	else:
+		last_direction = dir
 
-	var x = sign(dir.x)
-	var y = sign(dir.y)
+	dir = dir.normalized()
 
-	# Diagonales
-	if x == 1 and y == -1:
-		sprite.texture = tex_up_right
-	elif x == -1 and y == -1:
-		sprite.texture = tex_up_left
-	elif x == 1 and y == 1:
-		sprite.texture = tex_down_right
-	elif x == -1 and y == 1:
-		sprite.texture = tex_down_left
-	
-	# Cardinales
-	elif x == 1:
+	var angle = atan2(dir.y, dir.x)
+	var deg = rad_to_deg(angle)
+	if deg < 0:
+		deg += 360
+
+	if deg >= 337.5 or deg < 22.5:
 		sprite.texture = tex_right
-	elif x == -1:
-		sprite.texture = tex_left
-	elif y == 1:
+	elif deg >= 22.5 and deg < 67.5:
+		sprite.texture = tex_down_right
+	elif deg >= 67.5 and deg < 112.5:
 		sprite.texture = tex_down
-	elif y == -1:
+	elif deg >= 112.5 and deg < 157.5:
+		sprite.texture = tex_down_left
+	elif deg >= 157.5 and deg < 202.5:
+		sprite.texture = tex_left
+	elif deg >= 202.5 and deg < 247.5:
+		sprite.texture = tex_up_left
+	elif deg >= 247.5 and deg < 292.5:
 		sprite.texture = tex_up
+	elif deg >= 292.5 and deg < 337.5:
+		sprite.texture = tex_up_right
+
+# FLOTACIÓN
+func update_float(delta: float):
+	float_time += delta
+	sprite.position.y = base_position_y + sin(float_time * float_speed) * float_amplitude

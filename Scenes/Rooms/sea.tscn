@@ -3,6 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://cwvm4fbbd77sv" path="res://Scenes/Player/ship.tscn" id="1_4yebs"]
 [ext_resource type="Script" uid="uid://rbwxn7ifpxwj" path="res://Scripts/SeaWorld/sea.gd" id="1_qf70t"]
 [ext_resource type="Texture2D" uid="uid://utrxibwsnt5i" path="res://Resources/Rooms/mar1-Sheet.png" id="2_7ur65"]
+[ext_resource type="PackedScene" uid="uid://b4xsuvdpgvdtp" path="res://Scenes/Modals/exit_modal.tscn" id="4_4ndr1"]
+[ext_resource type="AudioStream" uid="uid://pmyjo7vrlhff" path="res://Music/litoral drift.mp3" id="5_7yquu"]
+[ext_resource type="Script" uid="uid://d2e8252licdm1" path="res://Scenes/Rooms/paracas.gd" id="6_ybolt"]
+[ext_resource type="Script" uid="uid://cln1508wnq5sq" path="res://Scenes/Rooms/san_juan.gd" id="7_hblrw"]
+[ext_resource type="Script" uid="uid://c2pciwddqjk53" path="res://Scenes/Rooms/sechura.gd" id="8_nha1c"]
+[ext_resource type="Script" uid="uid://cap1lmrvyqqsh" path="res://Scenes/Rooms/villa.gd" id="9_y3aj6"]
+[ext_resource type="Script" uid="uid://e7veji7tyr1r" path="res://Scenes/Rooms/islas_ballestas.gd" id="10_tcafm"]
+[ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/generic_modal.tscn" id="11_nha1c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qf70t"]
 atlas = ExtResource("2_7ur65")
@@ -26,6 +34,22 @@ animations = [{
 "speed": 2.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yquu"]
+size = Vector2(422, 83)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_ybolt"]
+a = Vector2(965, 697)
+b = Vector2(1, 702)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_7yquu"]
+a = Vector2(1, 699)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_8huyp"]
+a = Vector2(653, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8huyp"]
+radius = 37.01351
+
 [node name="Sea" type="Node2D" unique_id=1723245433]
 script = ExtResource("1_qf70t")
 
@@ -39,3 +63,73 @@ position = Vector2(643, 361)
 sprite_frames = SubResource("SpriteFrames_7yquu")
 animation = &"sea_movement"
 frame_progress = 0.5886859
+
+[node name="exit_modal" parent="." unique_id=1942044467 instance=ExtResource("4_4ndr1")]
+visible = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1096278703]
+stream = ExtResource("5_7yquu")
+autoplay = true
+
+[node name="CoastCollision" type="StaticBody2D" parent="." unique_id=1440038020]
+visible = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CoastCollision" unique_id=1212464670]
+position = Vector2(2, 0)
+polygon = PackedVector2Array(1272, 1, 699, 6, 641, 43, 621, 109, 681, 163, 732, 223, 738, 288, 778, 327, 789, 459, 773, 508, 832, 560, 817, 593, 841, 627, 993, 717, 1278, 717)
+
+[node name="LimitCollision" type="StaticBody2D" parent="." unique_id=82483781]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LimitCollision" unique_id=1885682212]
+position = Vector2(212, 43.5)
+shape = SubResource("RectangleShape2D_7yquu")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="LimitCollision" unique_id=2118691925]
+position = Vector2(15, 4)
+shape = SubResource("SegmentShape2D_ybolt")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="LimitCollision" unique_id=1716342302]
+position = Vector2(17, 9)
+shape = SubResource("SegmentShape2D_7yquu")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="LimitCollision" unique_id=1538679386]
+shape = SubResource("SegmentShape2D_8huyp")
+
+[node name="Paracas" type="Area2D" parent="." unique_id=922139244]
+script = ExtResource("6_ybolt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Paracas" unique_id=1116741230]
+position = Vector2(854, 609)
+shape = SubResource("CircleShape2D_8huyp")
+
+[node name="San Juan" type="Area2D" parent="." unique_id=203089470]
+script = ExtResource("7_hblrw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="San Juan" unique_id=61001134]
+position = Vector2(795, 498)
+shape = SubResource("CircleShape2D_8huyp")
+
+[node name="Sechura" type="Area2D" parent="." unique_id=1911444850]
+script = ExtResource("8_nha1c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sechura" unique_id=1216159924]
+position = Vector2(625, 77)
+shape = SubResource("CircleShape2D_8huyp")
+
+[node name="Villa" type="Area2D" parent="." unique_id=381415537]
+script = ExtResource("9_y3aj6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Villa" unique_id=1974844040]
+position = Vector2(716, 249)
+shape = SubResource("CircleShape2D_8huyp")
+
+[node name="Islas Ballestas" type="Area2D" parent="." unique_id=1342539118]
+script = ExtResource("10_tcafm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Islas Ballestas" unique_id=499072554]
+position = Vector2(768, 366)
+shape = SubResource("CircleShape2D_8huyp")
+
+[node name="generic_modal" parent="." unique_id=142407682 instance=ExtResource("11_nha1c")]
+visible = false

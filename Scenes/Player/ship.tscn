@@ -10,6 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://dtpbjym7g8ylj" path="res://Resources/Player/ship moveset/fila-3-columna-3.png" id="8_0jj1q"]
 [ext_resource type="Texture2D" uid="uid://3bakkcxueupg" path="res://Resources/Player/ship moveset/fila-3-columna-1.png" id="9_s6ha1"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_iud1o"]
+radius = 55.946404
+
 [node name="Ship" type="CharacterBody2D" unique_id=1953170900]
 script = ExtResource("1_5ethb")
 tex_up = ExtResource("2_em7dj")
@@ -24,3 +27,7 @@ tex_down_left = ExtResource("9_s6ha1")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1448218404]
 position = Vector2(1, 0)
 texture = ExtResource("2_5ethb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=55411258]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_iud1o")

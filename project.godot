@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Gardianes del litoral peruano"
-run/main_scene="uid://o8y4olfrpou7"
+run/main_scene="uid://bs7vbb3yuoa7e"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
