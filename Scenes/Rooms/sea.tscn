@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://cap1lmrvyqqsh" path="res://Scenes/Rooms/villa.gd" id="9_y3aj6"]
 [ext_resource type="Script" uid="uid://e7veji7tyr1r" path="res://Scenes/Rooms/islas_ballestas.gd" id="10_tcafm"]
 [ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/generic_modal.tscn" id="11_nha1c"]
+[ext_resource type="FontFile" uid="uid://b332fbutohcui" path="res://Fonts/PressStart2P-Regular.ttf" id="12_y3aj6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qf70t"]
 atlas = ExtResource("2_7ur65")
@@ -49,6 +50,56 @@ a = Vector2(653, 8)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8huyp"]
 radius = 37.01351
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tcafm"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.011764706, 0.11764706, 0.19215687, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4509804, 0.3137255, 0.1254902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ge86e"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.011764706, 0.11764706, 0.19215687, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4509804, 0.3137255, 0.1254902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y3aj6"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.011764706, 0.11764706, 0.19215687, 0.8901961)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4509804, 0.3137255, 0.1254902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
 
 [node name="Sea" type="Node2D" unique_id=1723245433]
 script = ExtResource("1_qf70t")
@@ -121,15 +172,29 @@ shape = SubResource("CircleShape2D_8huyp")
 script = ExtResource("9_y3aj6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Villa" unique_id=1974844040]
-position = Vector2(716, 249)
+position = Vector2(740, 259)
 shape = SubResource("CircleShape2D_8huyp")
 
 [node name="Islas Ballestas" type="Area2D" parent="." unique_id=1342539118]
 script = ExtResource("10_tcafm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Islas Ballestas" unique_id=499072554]
-position = Vector2(768, 366)
+position = Vector2(790, 370)
 shape = SubResource("CircleShape2D_8huyp")
 
 [node name="generic_modal" parent="." unique_id=142407682 instance=ExtResource("11_nha1c")]
 visible = false
+
+[node name="SalirBtn" type="Button" parent="." unique_id=337717589]
+texture_filter = 1
+offset_left = 1130.0
+offset_top = 26.0
+offset_right = 1258.0
+offset_bottom = 85.0
+theme_override_fonts/font = ExtResource("12_y3aj6")
+theme_override_styles/normal = SubResource("StyleBoxFlat_tcafm")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ge86e")
+theme_override_styles/hover = SubResource("StyleBoxFlat_y3aj6")
+text = "SALIR"
+
+[connection signal="pressed" from="SalirBtn" to="exit_modal" method="_on_salir_btn_pressed"]

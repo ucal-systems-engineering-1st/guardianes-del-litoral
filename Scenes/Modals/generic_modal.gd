@@ -16,7 +16,7 @@ func _ready():
 	exit_btn.pressed.connect(_on_no_pressed)
 
 func mostrar(nombre_objeto: String, callback = null):
-	label.text = "¿Deseas explorar %s?" % nombre_objeto
+	label.text = "¿DESEAS EXPLORAR: %s?" % nombre_objeto
 	accion_callback = callback
 	_fade_in()
 
