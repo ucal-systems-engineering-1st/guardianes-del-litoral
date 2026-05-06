@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var nombre_lugar: String = "Reserva nacional de Paracas"
+@export var nombre_lugar: String = "RESERVA NACIONAL DE PARACAS"
 
 func _ready():
 	body_entered.connect(_on_enter)

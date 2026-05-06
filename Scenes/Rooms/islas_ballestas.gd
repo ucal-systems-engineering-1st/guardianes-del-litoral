@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var nombre_lugar: String = "Islas Ballestas"
+@export var nombre_lugar: String = "ISLAS BALLESTAS"
 
 func _ready():
 	body_entered.connect(_on_enter)
