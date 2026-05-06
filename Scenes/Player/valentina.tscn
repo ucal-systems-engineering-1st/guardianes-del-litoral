@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Player/valentinaController.gd" id="1_val"]
+[ext_resource type="Texture2D" path="res://Resources/Player/valentina/ValentinaImage.png" id="2_val"]
+
+[sub_resource type="Shader" id="Shader_remove_white"]
+code = "shader_type canvas_item;
+
+uniform float threshold : hint_range(0.0, 1.0) = 0.85;
+
+void fragment() {
+	vec4 tex_color = texture(TEXTURE, UV);
+	if (tex_color.r > threshold && tex_color.g > threshold && tex_color.b > threshold) {
+		tex_color.a = 0.0;
+	}
+	COLOR = tex_color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_val"]
+shader = SubResource("Shader_remove_white")
+shader_parameter/threshold = 0.85
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_val"]
+radius = 20.0
+
+[node name="Valentina" type="CharacterBody2D"]
+z_index = 10
+scale = Vector2(2, 2)
+script = ExtResource("1_val")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_val")
+texture = ExtResource("2_val")
+hframes = 4
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("CircleShape2D_val")

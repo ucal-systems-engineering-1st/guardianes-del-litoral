@@ -11,6 +11,5 @@ func _on_enter(body):
 		
 		modal.mostrar(nombre_lugar, func():
 			print("Explorando:", nombre_lugar)
-			# Aquí puedes poner lógica real:
-			# cambiar escena, iniciar misión, etc.
-		);
+			get_tree().change_scene_to_file("res://Scenes/Rooms/bahia_sechura.tscn")
+		)
