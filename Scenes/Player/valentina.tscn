@@ -1,7 +1,7 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://d3gyt3i7qlkyu"]
 
-[ext_resource type="Script" path="res://Scripts/Player/valentinaController.gd" id="1_val"]
-[ext_resource type="Texture2D" path="res://Resources/Player/valentina/ValentinaImage.png" id="2_val"]
+[ext_resource type="Script" uid="uid://qh6e2w5l6hf1" path="res://Scripts/Player/valentinaController.gd" id="1_val"]
+[ext_resource type="Texture2D" uid="uid://065thvgh2ary" path="res://Resources/Player/valentina/val2.png" id="2_q74yr"]
 
 [sub_resource type="Shader" id="Shader_remove_white"]
 code = "shader_type canvas_item;
@@ -24,17 +24,19 @@ shader_parameter/threshold = 0.85
 [sub_resource type="CircleShape2D" id="CircleShape2D_val"]
 radius = 20.0
 
-[node name="Valentina" type="CharacterBody2D"]
+[node name="Valentina" type="CharacterBody2D" unique_id=2073931472]
 z_index = 10
 scale = Vector2(2, 2)
 script = ExtResource("1_val")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=986526173]
+texture_filter = 1
 material = SubResource("ShaderMaterial_val")
-texture = ExtResource("2_val")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_q74yr")
 hframes = 4
 vframes = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=826323432]
 position = Vector2(0, 8)
 shape = SubResource("CircleShape2D_val")

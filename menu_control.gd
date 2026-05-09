@@ -12,7 +12,7 @@ func _on_btn_jugar_pressed():
     var tween = create_tween()
     tween.tween_property(self, "modulate:a", 0, 0.5)
     await tween.finished
-    get_tree().change_scene_to_file("res://Scenes/Rooms/sea.tscn")
+    get_tree().change_scene_to_file("res://Scenes/Rooms/Intro.tscn")
 
 func _on_btn_salir_pressed():
     # Cerrar el juego

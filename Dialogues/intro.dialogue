@@ -1,0 +1,24 @@
+~ start
+=> dr_1
+
+
+~ dr_1
+Dr. Alejandro Ramos: ¿Valentina? ¿Me escuchas?
+
+Dr. Alejandro Ramos: La situación en Paracas empeoró.
+
+=> valentina
+
+
+~ valentina
+Valentina: Sí doctor, lo escucho.
+
+Valentina: Estoy acercándome a la zona.
+
+=> dr_2
+
+
+~ dr_2
+Dr. Alejandro Ramos: Por favor ten mucho cuidado, hay marea alta.
+
+=> END

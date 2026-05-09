@@ -6,7 +6,8 @@ extends CanvasLayer
 @onready var label = $Panel/CenterContainer/Label
 @onready var audio = $Pause
 
-var accion_callback = null  # ← para ejecutar algo al confirmar
+var accion_callback = null
+
 
 func _ready():
 	visible = false
@@ -15,53 +16,70 @@ func _ready():
 	confirm_btn.pressed.connect(_on_si_pressed)
 	exit_btn.pressed.connect(_on_no_pressed)
 
+
 func mostrar(nombre_objeto: String, callback = null):
 	label.text = "¿DESEAS EXPLORAR: %s?" % nombre_objeto
 	accion_callback = callback
-	_fade_in()
+	
+	await _fade_in()
+
 
 func _input(event):
-	if event is InputEventKey:
-		if event.keycode == KEY_ESCAPE and event.pressed:
-			if not visible:
-				_fade_in()
-			else:
-				_fade_out()
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_ESCAPE and visible:
+			_fade_out()
+
 
 func _fade_in():
 	visible = true
 	get_tree().paused = true
-	audio.play()
-	panel.modulate.a = 0.0
 	
+	audio.play()
+
+	panel.modulate.a = 0.0
+
 	var tween = create_tween()
+
 	tween.tween_property(panel, "modulate:a", 1.0, 0.3)\
 		.set_ease(Tween.EASE_OUT)\
 		.set_trans(Tween.TRANS_LINEAR)
 
+	await tween.finished
+
+
 func _fade_out():
 	var tween = create_tween()
+
 	tween.tween_property(panel, "modulate:a", 0.0, 0.3)\
 		.set_ease(Tween.EASE_IN)\
 		.set_trans(Tween.TRANS_LINEAR)
+
 	await tween.finished
 	
 	visible = false
 	get_tree().paused = false
+
 
 func _on_si_pressed():
 	get_tree().paused = false
-	
-	if accion_callback != null:
-		accion_callback.call()  # 🔥 ejecuta lo que le mandes
-	
+
 	var tween = create_tween()
+
 	tween.tween_property(panel, "modulate:a", 0.0, 0.5)\
 		.set_ease(Tween.EASE_IN)\
 		.set_trans(Tween.TRANS_LINEAR)
+
 	await tween.finished
-	
+
 	visible = false
 
+	await Transition.fade_out()
+
+	if accion_callback != null:
+		accion_callback.call()
+
+	Transition.fade_in()
+
+
 func _on_no_pressed():
-	_fade_out()
+	await _fade_out()

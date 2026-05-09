@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dvtinndjvbxwa"]
+
+[ext_resource type="Texture2D" uid="uid://rmgbb24alfct" path="res://Resources/Scenes/calling a.png" id="1_tvpmh"]
+[ext_resource type="Script" uid="uid://bw2vhd1n2wr8x" path="res://Scripts/Rooms/intro.gd" id="1_tx7ly"]
+[ext_resource type="AudioStream" uid="uid://dkqb4hkjl2hdv" path="res://Music/mar_music.mp3" id="3_ittcp"]
+[ext_resource type="Texture2D" uid="uid://crspvqua4du68" path="res://Resources/Scenes/calling b.png" id="3_lof4p"]
+[ext_resource type="Texture2D" uid="uid://i26log22h2db" path="res://Resources/Scenes/calling c.png" id="4_q7xim"]
+
+[node name="Intro" type="Control" unique_id=280082261]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_tx7ly")
+fondo_dr_habla = ExtResource("1_tvpmh")
+fondo_valentina_habla = ExtResource("3_lof4p")
+fondo_dr_final = ExtResource("4_q7xim")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=936580271]
+texture_filter = 1
+layout_mode = 1
+offset_right = 1280.0
+offset_bottom = 720.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1220726149]
+stream = ExtResource("3_ittcp")
+autoplay = true

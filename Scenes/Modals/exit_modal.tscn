@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b4xsuvdpgvdtp"]
 
-[ext_resource type="Script" uid="uid://d0xe6pnf7q44l" path="res://Scenes/Modals/exit_modal.gd" id="1_3ki2w"]
+[ext_resource type="Script" uid="uid://d0xe6pnf7q44l" path="res://Scripts/UI/Modals/exit_modal.gd" id="1_3ki2w"]
 [ext_resource type="Texture2D" uid="uid://daw3td3mlcukc" path="res://Resources/Modals/exit-modal.png" id="1_t6nib"]
 [ext_resource type="FontFile" uid="uid://b332fbutohcui" path="res://Fonts/PressStart2P-Regular.ttf" id="2_mwjmb"]
 [ext_resource type="AudioStream" uid="uid://dlblv3hbr75q5" path="res://Music/pause.mp3" id="4_oy2ru"]
@@ -102,7 +102,7 @@ offset_right = 28.5
 offset_bottom = 71.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 30
 
 [node name="ConfirmBtn" type="Button" parent="Panel/Contenedor" unique_id=149588738]
 texture_filter = 1

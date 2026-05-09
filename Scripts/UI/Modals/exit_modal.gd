@@ -56,7 +56,13 @@ func _on_si_pressed():
 
 	await tween.finished
 
+	visible = false
+
+	await Transition.fade_out()
+
 	get_tree().change_scene_to_file("res://control.tscn")
+
+	Transition.fade_in()
 
 func _on_no_pressed():
 	_fade_out()
