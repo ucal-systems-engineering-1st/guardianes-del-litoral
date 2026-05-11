@@ -1,6 +1,3 @@
-[gdlint]
-# Guardianes del Litoral — GDScript lint config
-# class-definitions-order: desactivado (orden @export/@onready/var es flexible en este proyecto)
-# max-line-length: aumentado a 140 para evitar falsas alarmas en líneas complejas
-disable = class-definitions-order
-max-line-length = 140
+disable:
+  - class-definitions-order
+max-line-length: 140
