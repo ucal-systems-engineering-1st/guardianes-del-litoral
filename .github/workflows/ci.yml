@@ -141,7 +141,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install gdtoolkit
-        run: pip install "gdtoolkit>=7.0.0"
+        run: pip install "gdtoolkit>=4.0.0"
 
       - name: Run gdlint on Scripts/
         run: |
@@ -203,12 +203,20 @@ jobs:
           set -euo pipefail
 
           BASE="${{ github.base_ref }}"
+          HEAD="${{ github.head_ref }}"
           VALID_TYPES="feat|fix|assets|dialogue|scene|chore|refactor|docs|test"
           ERRORS=0
 
           echo "🔍 Conventional Commits Check"
           echo "  Base: $BASE"
+          echo "  Head: $HEAD"
           echo ""
+
+          # Release y hotfix → main ya fueron validados en develop — skip
+          if [ "$BASE" = "main" ] && [[ "$HEAD" =~ ^(release|hotfix)/ ]]; then
+            echo "ℹ️  PR de $HEAD → main: commits ya validados en develop. Skipping."
+            exit 0
+          fi
 
           COMMITS=$(git log "origin/${BASE}..HEAD" --no-merges --format="%s" 2>/dev/null || true)
 
