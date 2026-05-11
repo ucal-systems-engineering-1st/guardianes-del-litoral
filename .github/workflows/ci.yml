@@ -1,0 +1,357 @@
+name: CI — Godot Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "release/**"
+      - develop
+  push:
+    branches:
+      - "release/**"
+      - "hotfix/**"
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # JOB 1: Godot project structure
+  # ─────────────────────────────────────────────────────────────
+  validate-project:
+    name: Validate Godot Project Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required files and folders
+        run: |
+          set -euo pipefail
+          ERRORS=0
+
+          echo "🔍 Checking Godot project structure..."
+
+          # project.godot must exist at root
+          if [ -f "project.godot" ]; then
+            echo "  ✅ project.godot exists"
+            GODOT_VER=$(grep 'config/features' project.godot | grep -oP '"\K[0-9]+\.[0-9]+' | head -1)
+            echo "  ℹ️  Godot version detected: $GODOT_VER"
+          else
+            echo "  ❌ project.godot not found — ¿es este el root del repositorio?"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # export_presets.cfg
+          if [ -f "export_presets.cfg" ]; then
+            echo "  ✅ export_presets.cfg exists"
+          else
+            echo "  ❌ export_presets.cfg not found — requerido para el export CI"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # CONTEXT.md
+          if [ -f "CONTEXT.md" ]; then
+            echo "  ✅ CONTEXT.md exists"
+          else
+            echo "  ❌ CONTEXT.md not found"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # Scripts/ folder
+          if [ -d "Scripts" ]; then
+            SCRIPT_COUNT=$(find Scripts/ -name "*.gd" | wc -l)
+            echo "  ✅ Scripts/ folder exists ($SCRIPT_COUNT .gd files)"
+          else
+            echo "  ❌ Scripts/ folder not found"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # Scenes/ folder
+          if [ -d "Scenes" ]; then
+            SCENE_COUNT=$(find Scenes/ -name "*.tscn" | wc -l)
+            echo "  ✅ Scenes/ folder exists ($SCENE_COUNT .tscn files)"
+          else
+            echo "  ❌ Scenes/ folder not found"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # .gitignore has .godot/
+          if grep -q '\.godot/' .gitignore 2>/dev/null; then
+            echo "  ✅ .gitignore has .godot/ entry"
+          else
+            echo "  ❌ .gitignore missing .godot/ — la caché de Godot no debe commitearse"
+            ERRORS=$((ERRORS + 1))
+          fi
+
+          # .godot/ should NOT be committed
+          if [ -d ".godot" ]; then
+            echo "  ❌ .godot/ está commiteado — agregar a .gitignore y remover del repo"
+            ERRORS=$((ERRORS + 1))
+          else
+            echo "  ✅ .godot/ no está commiteado"
+          fi
+
+          # Subdomain structure (warnings only)
+          echo ""
+          echo "  📁 Subdomain structure check (warnings only):"
+          for dir in Player Rooms UI; do
+            if [ -d "Scripts/$dir" ]; then
+              echo "    ✅ Scripts/$dir/"
+            else
+              echo "    ⚠️  Scripts/$dir/ not found"
+            fi
+            if [ -d "Scenes/$dir" ]; then
+              echo "    ✅ Scenes/$dir/"
+            else
+              echo "    ⚠️  Scenes/$dir/ not found"
+            fi
+          done
+
+          # Dialogues/
+          if [ -d "Dialogues" ]; then
+            DLG_COUNT=$(find Dialogues/ -name "*.dialogue" | wc -l)
+            echo "    ✅ Dialogues/ ($DLG_COUNT .dialogue files)"
+          else
+            echo "    ⚠️  Dialogues/ not found"
+          fi
+
+          echo ""
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "❌ Project structure: $ERRORS error(s) found"
+            exit 1
+          fi
+          echo "✅ Godot project structure is valid"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "════════════════════════════════════════"
+          echo "  Project Structure Validation Complete"
+          echo "════════════════════════════════════════"
+
+  # ─────────────────────────────────────────────────────────────
+  # JOB 2: GDScript lint (gdtoolkit)
+  # ─────────────────────────────────────────────────────────────
+  validate-gdscript:
+    name: Lint GDScript (gdtoolkit)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install gdtoolkit
+        run: pip install "gdtoolkit>=4.0.0"
+
+      - name: Run gdlint on Scripts/
+        run: |
+          set -euo pipefail
+          echo "🔍 Running gdlint on Scripts/ (addons/ excluded)..."
+
+          mapfile -t GD_FILES < <(find Scripts/ -name "*.gd" 2>/dev/null || true)
+
+          if [ "${#GD_FILES[@]}" -eq 0 ]; then
+            echo "ℹ️  No .gd files found in Scripts/"
+            exit 0
+          fi
+
+          echo "  Found ${#GD_FILES[@]} GDScript file(s)"
+          echo ""
+
+          ERRORS=0
+          for f in "${GD_FILES[@]}"; do
+            if gdlint "$f" 2>&1; then
+              echo "  ✅ $f"
+            else
+              echo "  ❌ $f"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done
+
+          echo ""
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "❌ GDScript lint: $ERRORS file(s) with style issues"
+            echo "   Run 'gdlint <archivo.gd>' localmente para ver los detalles"
+            exit 1
+          fi
+          echo "✅ All GDScript files pass linting"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "════════════════════════════════════════"
+          echo "  GDScript Lint Complete"
+          echo "════════════════════════════════════════"
+
+  # ─────────────────────────────────────────────────────────────
+  # JOB 3: Branch security (GitFlow + commits + ownership)
+  # ─────────────────────────────────────────────────────────────
+  validate-branches:
+    name: Validate Branch Security (GitFlow)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate conventional commits
+        run: |
+          set -euo pipefail
+
+          BASE="${{ github.base_ref }}"
+          HEAD="${{ github.head_ref }}"
+          VALID_TYPES="feat|fix|assets|dialogue|scene|chore|refactor|docs|test"
+          ERRORS=0
+
+          echo "🔍 Conventional Commits Check"
+          echo "  Base: $BASE"
+          echo "  Head: $HEAD"
+          echo ""
+
+          # Release y hotfix → main ya fueron validados en develop — skip
+          if [ "$BASE" = "main" ] && [[ "$HEAD" =~ ^(release|hotfix)/ ]]; then
+            echo "ℹ️  PR de $HEAD → main: commits ya validados en develop. Skipping."
+            exit 0
+          fi
+
+          COMMITS=$(git log "origin/${BASE}..HEAD" --no-merges --format="%s" 2>/dev/null || true)
+
+          if [ -z "$COMMITS" ]; then
+            echo "ℹ️  No commits to validate."
+            exit 0
+          fi
+
+          while IFS= read -r MSG; do
+            [ -z "$MSG" ] && continue
+            if echo "$MSG" | grep -qE "^(${VALID_TYPES})(\([^)]+\))?: .+"; then
+              echo "  ✅ $MSG"
+            else
+              echo "  ❌ Invalid: $MSG"
+              echo "     Expected: type(scope): description"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done <<< "$COMMITS"
+
+          echo ""
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "❌ Conventional commits: $ERRORS invalid commit(s)"
+            echo ""
+            echo "   Tipos válidos para este proyecto Godot:"
+            echo "   feat      → nueva zona, mecánica, diálogo, personaje"
+            echo "   fix       → bug en física, colisiones, lógica de juego"
+            echo "   assets    → sprites, música, tilesets, fuentes, sonidos"
+            echo "   dialogue  → archivos .dialogue del sistema de NPC"
+            echo "   scene     → escenas .tscn nuevas o modificadas"
+            echo "   chore     → project.godot, export_presets, .gitignore"
+            echo "   refactor  → reorganización de nodos o GDScript"
+            echo "   docs      → CONTEXT.md, README, documentación"
+            echo "   test      → pruebas con GUT"
+            exit 1
+          fi
+          echo "✅ All commits follow conventional commits format."
+
+      - name: Check PR source matches GitFlow rules
+        run: |
+          set -euo pipefail
+
+          BASE="${{ github.base_ref }}"
+          HEAD="${{ github.head_ref }}"
+          ERRORS=0
+
+          echo "🔍 GitFlow Branch Security Check"
+          echo "  Base : $BASE"
+          echo "  Head : $HEAD"
+          echo ""
+
+          # Rule 1 — PRs to main MUST come from release/* or hotfix/*
+          if [ "$BASE" = "main" ]; then
+            if [[ "$HEAD" =~ ^(release|hotfix)/ ]]; then
+              echo "  ✅ PR to main from valid branch: $HEAD"
+            else
+              echo "  ❌ PRs to main ONLY allowed from release/* or hotfix/*"
+              echo "     Found: $HEAD"
+              echo "     Fix  : Crear rama release/vX.Y.Z desde develop primero"
+              ERRORS=$((ERRORS + 1))
+            fi
+          fi
+
+          # Rule 2 — PRs to release/* MUST come from develop
+          if [[ "$BASE" =~ ^release/ ]]; then
+            if [ "$HEAD" = "develop" ] || [[ "$HEAD" =~ ^hotfix/ ]]; then
+              echo "  ✅ PR to $BASE from valid branch: $HEAD"
+            else
+              echo "  ❌ PRs to release/* ONLY allowed from develop"
+              echo "     Found: $HEAD"
+              ERRORS=$((ERRORS + 1))
+            fi
+          fi
+
+          # Rule 3 — PRs to develop MUST come from feat/*, fix/*, docs/*, chore/*, refactor/*
+          if [ "$BASE" = "develop" ]; then
+            if [[ "$HEAD" =~ ^(feat|fix|docs|chore|refactor)/ ]]; then
+              echo "  ✅ PR to develop from valid branch: $HEAD"
+            elif [[ "$HEAD" =~ ^(release|hotfix)/ ]]; then
+              echo "  ❌ PRs to develop from release/* or hotfix/* no están permitidos"
+              echo "     Found: $HEAD → develop"
+              ERRORS=$((ERRORS + 1))
+            else
+              echo "  ⚠️  Branch $HEAD no sigue el prefijo feat/fix/docs/chore/refactor"
+            fi
+          fi
+
+          echo ""
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "❌ Branch security: $ERRORS rule violation(s)"
+            exit 1
+          fi
+          echo "✅ All GitFlow branch security rules passed."
+
+      - name: Validate branch ownership
+        run: |
+          set -euo pipefail
+
+          HEAD="${{ github.head_ref }}"
+          ACTOR="${{ github.actor }}"
+
+          echo "🔍 Branch Ownership Check"
+          echo "  Branch : $HEAD"
+          echo "  Actor  : @$ACTOR"
+          echo ""
+
+          # Mapa: rama → GitHub username asignado
+          declare -A OWNERS=(
+            ["feat/ship"]="Rachelduarte"
+            ["feat/intro"]="1v4nz2023"
+            ["feat/sea"]="1v4nz2023"
+            ["feat/rooms"]="Geraldow"
+            ["feat/valentina"]="alemarquina"
+            ["feat/sechura"]="alemarquina"
+          )
+
+          if [[ -n "${OWNERS[$HEAD]+_}" ]]; then
+            EXPECTED="${OWNERS[$HEAD]}"
+            if [[ "$ACTOR" == "$EXPECTED" ]]; then
+              echo "  ✅ @$ACTOR is the assigned owner of $HEAD"
+            else
+              echo "  ❌ Branch $HEAD belongs to @$EXPECTED, not @$ACTOR"
+              echo "     Fix  : Usar tu rama asignada"
+              exit 1
+            fi
+          else
+            echo "  ℹ️  No ownership rule for branch: $HEAD — skipping check"
+          fi
+
+          echo ""
+          echo "✅ Branch ownership check passed."
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "════════════════════════════════════════"
+          echo "  Branch Security Validation Complete"
+          echo "════════════════════════════════════════"

@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://d1ghfaua5fpe2"]
+
+[ext_resource type="Script" uid="uid://bfjo6drpanitu" path="res://Scripts/UI/Modals/generic_modal.gd" id="1_bjhi7"]
+[ext_resource type="Texture2D" uid="uid://dsrwvqale86q1" path="res://Resources/Modals/generic-modal.png" id="2_bjhi7"]
+[ext_resource type="FontFile" uid="uid://b332fbutohcui" path="res://Fonts/PressStart2P-Regular.ttf" id="3_6olic"]
+[ext_resource type="AudioStream" uid="uid://dlblv3hbr75q5" path="res://Music/pause.mp3" id="4_84t3n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ki2w"]
+bg_color = Color(0, 0.4392157, 0.05882353, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_01ofq"]
+bg_color = Color(0, 0.4392157, 0.05882353, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fu3ei"]
+bg_color = Color(0, 0.4392157, 0.05882353, 0.89411765)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oy2ru"]
+bg_color = Color(0.57254905, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_swnyg"]
+bg_color = Color(0.57254905, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pn22r"]
+bg_color = Color(0.57254905, 0, 0, 0.90588236)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+
+[node name="generic_modal" type="CanvasLayer" unique_id=1942044467]
+script = ExtResource("1_bjhi7")
+
+[node name="Panel" type="Panel" parent="." unique_id=979779606]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel" unique_id=149320705]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.5
+offset_top = -102.5
+offset_right = 175.5
+offset_bottom = 102.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Panel/CenterContainer" unique_id=1582368553]
+layout_mode = 2
+texture = ExtResource("2_bjhi7")
+
+[node name="Label" type="Label" parent="Panel/CenterContainer" unique_id=2041915527]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_6olic")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Contenedor" type="HBoxContainer" parent="Panel" unique_id=1598467785]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.5
+offset_top = 40.0
+offset_right = 28.5
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="ConfirmBtn" type="Button" parent="Panel/Contenedor" unique_id=149588738]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_6olic")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_3ki2w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_01ofq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fu3ei")
+text = "Sí"
+
+[node name="ExitBtn" type="Button" parent="Panel/Contenedor" unique_id=1061800580]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_6olic")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_oy2ru")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_swnyg")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pn22r")
+text = "No"
+
+[node name="Pause" type="AudioStreamPlayer" parent="." unique_id=944822693]
+stream = ExtResource("4_84t3n")

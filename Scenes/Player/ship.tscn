@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cwvm4fbbd77sv"]
+
+[ext_resource type="Script" uid="uid://bhsqeufcegc44" path="res://Scripts/Player/shipController.gd" id="1_5ethb"]
+[ext_resource type="Texture2D" uid="uid://o7e5im25a21j" path="res://Resources/Player/ship moveset/ship_down.png" id="2_5ethb"]
+[ext_resource type="Texture2D" uid="uid://wcfs8r84ktnv" path="res://Resources/Player/ship moveset/ship_up.png" id="2_em7dj"]
+[ext_resource type="Texture2D" uid="uid://dc85tf3wlicpy" path="res://Resources/Player/ship moveset/fila-2-columna-1.png" id="4_w4bij"]
+[ext_resource type="Texture2D" uid="uid://di0dfrylyscc" path="res://Resources/Player/ship moveset/fila-2-columna-3.png" id="5_16cka"]
+[ext_resource type="Texture2D" uid="uid://b4qqnkgw6w6ss" path="res://Resources/Player/ship moveset/fila-1-columna-3.png" id="6_iud1o"]
+[ext_resource type="Texture2D" uid="uid://ns4gy5psm2ri" path="res://Resources/Player/ship moveset/fila-1-columna-1.png" id="7_84fab"]
+[ext_resource type="Texture2D" uid="uid://dtpbjym7g8ylj" path="res://Resources/Player/ship moveset/fila-3-columna-3.png" id="8_0jj1q"]
+[ext_resource type="Texture2D" uid="uid://3bakkcxueupg" path="res://Resources/Player/ship moveset/fila-3-columna-1.png" id="9_s6ha1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iud1o"]
+radius = 55.946404
+
+[node name="Ship" type="CharacterBody2D" unique_id=1953170900]
+script = ExtResource("1_5ethb")
+tex_up = ExtResource("2_em7dj")
+tex_down = ExtResource("2_5ethb")
+tex_left = ExtResource("4_w4bij")
+tex_right = ExtResource("5_16cka")
+tex_up_right = ExtResource("6_iud1o")
+tex_up_left = ExtResource("7_84fab")
+tex_down_right = ExtResource("8_0jj1q")
+tex_down_left = ExtResource("9_s6ha1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1448218404]
+position = Vector2(1, 0)
+texture = ExtResource("2_5ethb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=55411258]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_iud1o")
