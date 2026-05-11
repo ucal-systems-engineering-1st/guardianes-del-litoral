@@ -24,6 +24,13 @@ func mostrar(nombre_objeto: String, callback = null):
 	await _fade_in()
 
 
+func mostrar_texto(texto: String, callback = null):
+	label.text = texto
+	accion_callback = callback
+	
+	await _fade_in()
+
+
 func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_ESCAPE and visible:

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dd1ra43nuftlu"
-path="res://.godot/imported/Tilemap_sand_1.png-a1a54eed421190ecda7f90014c6c19fd.ctex"
+uid="uid://c3tjkxhlxt2ym"
+path="res://.godot/imported/Tilemap_color1.png-4852c0b7ba2028ad4e61b3c26d3ead88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Tilemap_sand_1.png"
-dest_files=["res://.godot/imported/Tilemap_sand_1.png-a1a54eed421190ecda7f90014c6c19fd.ctex"]
+source_file="res://Resources/Rooms/Tilemap_color1.png"
+dest_files=["res://.godot/imported/Tilemap_color1.png-4852c0b7ba2028ad4e61b3c26d3ead88.ctex"]
 
 [params]
 

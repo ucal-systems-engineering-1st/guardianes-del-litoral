@@ -5,24 +5,32 @@ extends CanvasLayer
 @onready var panel = $Panel
 @onready var audio = $Pause
 
+
 func _ready():
 	visible = false
+
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	
+
+	confirm_btn.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	exit_btn.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+
 	confirm_btn.pressed.connect(_on_si_pressed)
 	exit_btn.pressed.connect(_on_no_pressed)
+
 
 # ESTA FUNCIÓN SE CONECTA DESDE SalirBtn -> pressed()
 func _on_salir_btn_pressed():
 	if not visible:
-		_fade_in()
+		await _fade_in()
 	else:
-		_fade_out()
+		await _fade_out()
+
 
 func _fade_in():
 	visible = true
+
 	get_tree().paused = true
-	
+
 	audio.play()
 
 	panel.modulate.a = 0.0
@@ -32,6 +40,9 @@ func _fade_in():
 	tween.tween_property(panel, "modulate:a", 1.0, 0.3)\
 		.set_ease(Tween.EASE_OUT)\
 		.set_trans(Tween.TRANS_LINEAR)
+
+	await tween.finished
+
 
 func _fade_out():
 	var tween = create_tween()
@@ -43,7 +54,9 @@ func _fade_out():
 	await tween.finished
 
 	visible = false
+
 	get_tree().paused = false
+
 
 func _on_si_pressed():
 	get_tree().paused = false
@@ -58,11 +71,10 @@ func _on_si_pressed():
 
 	visible = false
 
-	await Transition.fade_out()
+	await Transition.change_scene(
+		"res://Scenes/Rooms/control.tscn"
+	)
 
-	get_tree().change_scene_to_file("res://control.tscn")
-
-	Transition.fade_in()
 
 func _on_no_pressed():
-	_fade_out()
+	await _fade_out()

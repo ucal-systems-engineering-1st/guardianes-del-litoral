@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bs7vbb3yuoa7e"]
 
-[ext_resource type="Texture2D" uid="uid://belxlu7scct2a" path="res://Resources/Scenes/portada.png" id="1_0fbet"]
-[ext_resource type="Script" uid="uid://cr07qw0o5pyvl" path="res://menu_control.gd" id="1_kbped"]
-[ext_resource type="FontFile" uid="uid://b332fbutohcui" path="res://Fonts/PressStart2P-Regular.ttf" id="2_62e2m"]
-[ext_resource type="Script" uid="uid://bwlqfauprx7wa" path="res://Scripts/UI/btn_jugar.gd" id="3_ee4bf"]
-[ext_resource type="AudioStream" uid="uid://dsjlrk1n0ijn6" path="res://Music/Mareas de Sal.mp3" id="3_qtu10"]
+[ext_resource type="Script" uid="uid://cr07qw0o5pyvl" path="res://Scripts/UI/menu_control.gd" id="1_v8nre"]
+[ext_resource type="Texture2D" uid="uid://belxlu7scct2a" path="res://Resources/Scenes/portada.png" id="2_6pp3g"]
+[ext_resource type="FontFile" uid="uid://b332fbutohcui" path="res://Fonts/PressStart2P-Regular.ttf" id="3_fre4u"]
+[ext_resource type="Script" uid="uid://bwlqfauprx7wa" path="res://Scripts/UI/btn_jugar.gd" id="4_bt08j"]
+[ext_resource type="AudioStream" uid="uid://dsjlrk1n0ijn6" path="res://Music/Mareas de Sal.mp3" id="5_j5buo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62e2m"]
 bg_color = Color(0.011764706, 0.11764706, 0.19215687, 1)
@@ -46,7 +46,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_kbped")
+script = ExtResource("1_v8nre")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1177191369]
 z_index = -1
@@ -56,7 +56,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_0fbet")
+texture = ExtResource("2_6pp3g")
 
 [node name="Label" type="Label" parent="." unique_id=1478741403]
 layout_mode = 1
@@ -72,7 +72,7 @@ offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("2_62e2m")
+theme_override_fonts/font = ExtResource("3_fre4u")
 theme_override_font_sizes/font_size = 20
 text = " © 2026 UCAL - GRUPO 1"
 
@@ -94,17 +94,17 @@ alignment = 1
 
 [node name="BtnJugar" type="Button" parent="VBoxContainer" unique_id=1649255675]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_62e2m")
+theme_override_fonts/font = ExtResource("3_fre4u")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_62e2m")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_0fbet")
 theme_override_styles/hover = SubResource("StyleBoxFlat_qtu10")
 text = "INICIAR JUEGO"
-script = ExtResource("3_ee4bf")
+script = ExtResource("4_bt08j")
 
 [node name="BtnSalir" type="Button" parent="VBoxContainer" unique_id=1632757723]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_62e2m")
+theme_override_fonts/font = ExtResource("3_fre4u")
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_62e2m")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_0fbet")
@@ -112,5 +112,5 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_qtu10")
 text = "SALIR"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1533306103]
-stream = ExtResource("3_qtu10")
+stream = ExtResource("5_j5buo")
 autoplay = true

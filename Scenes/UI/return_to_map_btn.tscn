@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://dxvbitprgcbs2"]
+
+[ext_resource type="Script" uid="uid://drvfxjuq3bxxk" path="res://Scripts/UI/return_to_map_btn.gd" id="1_atjj5"]
+[ext_resource type="FontFile" uid="uid://b332fbutohcui" path="res://Fonts/PressStart2P-Regular.ttf" id="1_ecve5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8qx58"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.011764706, 0.11764706, 0.19215687, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4509804, 0.3137255, 0.1254902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p5fm1"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.011764706, 0.11764706, 0.19215687, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4509804, 0.3137255, 0.1254902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u6fg4"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.011764706, 0.11764706, 0.19215687, 0.8901961)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.4509804, 0.3137255, 0.1254902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 5
+
+[node name="ReturnToMapButton" type="CanvasLayer" unique_id=825198052]
+script = ExtResource("1_atjj5")
+
+[node name="Control" type="Control" parent="." unique_id=1960916688]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ReturnToMapBtn" type="Button" parent="Control" unique_id=1366397286]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -145.0
+offset_top = 17.0
+offset_right = -17.0
+offset_bottom = 76.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("1_ecve5")
+theme_override_styles/normal = SubResource("StyleBoxFlat_8qx58")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p5fm1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_u6fg4")
+text = "VOLVER"
+
+[connection signal="pressed" from="Control/ReturnToMapBtn" to="." method="_on_return_to_map_btn_pressed"]

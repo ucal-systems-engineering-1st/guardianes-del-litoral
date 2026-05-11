@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://i635u5r2funr"
-path="res://.godot/imported/Water Background color.png-a3ed33690a03257eb8b28d6d6edee57b.ctex"
+path="res://.godot/imported/Water Background color.png-324bfd5973a1b6c239e3ca0d3182262b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Water Background color.png"
-dest_files=["res://.godot/imported/Water Background color.png-a3ed33690a03257eb8b28d6d6edee57b.ctex"]
+source_file="res://Resources/Rooms/Water Background color.png"
+dest_files=["res://.godot/imported/Water Background color.png-324bfd5973a1b6c239e3ca0d3182262b.ctex"]
 
 [params]
 

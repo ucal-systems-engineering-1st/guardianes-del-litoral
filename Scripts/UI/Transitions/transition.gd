@@ -12,6 +12,7 @@ func fade_in():
 	rect.modulate.a = 1.0
 
 	var tween = create_tween()
+
 	tween.tween_property(rect, "modulate:a", 0.0, 0.5)
 
 	await tween.finished
@@ -24,6 +25,17 @@ func fade_out():
 	rect.modulate.a = 0.0
 
 	var tween = create_tween()
+
 	tween.tween_property(rect, "modulate:a", 1.0, 0.5)
 
 	await tween.finished
+
+
+func change_scene(path: String):
+	await fade_out()
+
+	get_tree().change_scene_to_file(path)
+
+	await get_tree().process_frame
+
+	await fade_in()
