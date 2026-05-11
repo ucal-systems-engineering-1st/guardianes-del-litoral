@@ -1,0 +1,258 @@
+name: Release — Guardianes del Litoral
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  GODOT_VERSION: "4.6"
+  GODOT_RELEASE: "stable"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version from branch name
+        id: version
+        run: |
+          set -euo pipefail
+
+          BRANCH="${{ github.head_ref }}"
+          echo "Source branch: $BRANCH"
+
+          PREV_TAG=$(git tag --sort=-version:refname \
+            | grep -Ev '\-(draft|alpha|beta|rc)' \
+            | head -1 || true)
+
+          # Extract version from branch: release/v1.0.0 or hotfix/v1.0.1
+          if [[ "$BRANCH" =~ ^(release|hotfix)/v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            VERSION="${BASH_REMATCH[2]}"
+            echo "✅ Version from branch name: v$VERSION"
+
+          elif [[ "$BRANCH" =~ ^hotfix/ ]]; then
+            # hotfix/* sin versión explícita → auto PATCH bump
+            if [ -z "$PREV_TAG" ]; then
+              VERSION="1.0.1"
+            else
+              CLEAN="${PREV_TAG#v}"
+              MAJOR=$(echo "$CLEAN" | cut -d. -f1)
+              MINOR=$(echo "$CLEAN" | cut -d. -f2)
+              PATCH=$(echo "$CLEAN" | cut -d. -f3)
+              VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))"
+            fi
+            echo "✅ Version from PATCH bump: v$VERSION"
+
+          else
+            echo "⚠️  Branch '$BRANCH' is not release/* or hotfix/* — skipping release."
+            echo "SKIP=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Skip if no new commits since last tag
+          if [ -n "$PREV_TAG" ]; then
+            COMMITS=$(git log "${PREV_TAG}..HEAD" --no-merges --oneline 2>/dev/null || true)
+            if [ -z "$COMMITS" ]; then
+              echo "⚠️  No commits since $PREV_TAG — skipping release."
+              echo "SKIP=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "PREV_TAG=${PREV_TAG:-}" >> "$GITHUB_OUTPUT"
+
+      - name: Check if tag already exists
+        id: tag_check
+        if: steps.version.outputs.SKIP != 'true'
+        run: |
+          set -euo pipefail
+          TAG="v${{ steps.version.outputs.VERSION }}"
+          if git tag | grep -q "^${TAG}$"; then
+            echo "⚠️  Tag $TAG already exists — skipping."
+            echo "SKIP=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "✅ Tag $TAG is new."
+            echo "SKIP=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── Export Windows .exe ──────────────────────────────────
+      - name: Cache Godot binaries
+        if: steps.tag_check.outputs.SKIP == 'false'
+        uses: actions/cache@v4
+        id: cache-godot
+        with:
+          path: |
+            godot-bin/
+            ~/.local/share/godot/export_templates/
+          key: godot-${{ env.GODOT_VERSION }}-${{ env.GODOT_RELEASE }}-v1
+
+      - name: Download Godot ${{ env.GODOT_VERSION }}
+        if: steps.tag_check.outputs.SKIP == 'false' && steps.cache-godot.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p godot-bin
+
+          GODOT_FILE="Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_linux.x86_64"
+          echo "⬇️  Downloading Godot ${GODOT_VERSION}..."
+          wget -q "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-${GODOT_RELEASE}/${GODOT_FILE}.zip"
+          unzip -q "${GODOT_FILE}.zip"
+          mv "${GODOT_FILE}" godot-bin/godot
+          chmod +x godot-bin/godot
+
+          TEMPLATES_DIR="${HOME}/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE}"
+          mkdir -p "${TEMPLATES_DIR}"
+          TEMPLATES_FILE="Godot_v${GODOT_VERSION}-${GODOT_RELEASE}_export_templates.tpz"
+          wget -q "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-${GODOT_RELEASE}/${TEMPLATES_FILE}"
+          unzip -q "${TEMPLATES_FILE}" -d /tmp/godot-templates
+          mv /tmp/godot-templates/templates/* "${TEMPLATES_DIR}/"
+          echo "✅ Godot ready"
+
+      - name: Export Windows Desktop
+        if: steps.tag_check.outputs.SKIP == 'false'
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          VERSION="${{ steps.version.outputs.VERSION }}"
+
+          echo "🪟 Exporting Windows Desktop v${VERSION}..."
+          godot-bin/godot --headless --export-release "Windows Desktop" "$PWD/dist/guardianes-v${VERSION}.exe" 2>&1
+          echo ""
+          echo "📦 Release binary:"
+          ls -lh dist/
+
+      # ── CHANGELOG ────────────────────────────────────────────
+      - name: Generate CHANGELOG entry
+        if: steps.tag_check.outputs.SKIP == 'false'
+        run: |
+          set -euo pipefail
+
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          PREV_TAG="${{ steps.version.outputs.PREV_TAG }}"
+          TODAY=$(date -u +%Y-%m-%d)
+
+          if [ -z "$PREV_TAG" ]; then
+            COMMITS=$(git log --no-merges --pretty=format:"%s" | head -30)
+          else
+            COMMITS=$(git log "${PREV_TAG}..HEAD" --no-merges --pretty=format:"%s")
+          fi
+
+          ADDED=""
+          CHANGED=""
+          FIXED=""
+          ASSETS=""
+
+          while IFS= read -r line; do
+            [[ "$line" =~ ^[Mm]erge ]] && continue
+            if [[ "$line" =~ ^feat ]]; then
+              MSG=$(echo "$line" | sed -E 's/^feat\([^)]*\): //;s/^feat: //')
+              ADDED="${ADDED}- ${MSG}\n"
+            elif [[ "$line" =~ ^fix ]]; then
+              MSG=$(echo "$line" | sed -E 's/^fix\([^)]*\): //;s/^fix: //')
+              FIXED="${FIXED}- ${MSG}\n"
+            elif [[ "$line" =~ ^(scene|dialogue|refactor|docs|chore) ]]; then
+              MSG=$(echo "$line" | sed -E 's/^[a-z]+\([^)]*\): //;s/^[a-z]+: //')
+              CHANGED="${CHANGED}- ${MSG}\n"
+            elif [[ "$line" =~ ^assets ]]; then
+              MSG=$(echo "$line" | sed -E 's/^assets\([^)]*\): //;s/^assets: //')
+              ASSETS="${ASSETS}- ${MSG}\n"
+            fi
+          done <<< "$COMMITS"
+
+          ENTRY="## [${VERSION}] - ${TODAY}\n\n"
+          SECTIONS=0
+
+          if [ -n "$ADDED" ]; then
+            ENTRY="${ENTRY}### 🎮 Nuevas funcionalidades\n\n${ADDED}\n"
+            SECTIONS=$((SECTIONS + 1))
+          fi
+          if [ -n "$ASSETS" ]; then
+            ENTRY="${ENTRY}### 🎨 Assets\n\n${ASSETS}\n"
+            SECTIONS=$((SECTIONS + 1))
+          fi
+          if [ -n "$CHANGED" ]; then
+            ENTRY="${ENTRY}### 🔄 Cambios\n\n${CHANGED}\n"
+            SECTIONS=$((SECTIONS + 1))
+          fi
+          if [ -n "$FIXED" ]; then
+            ENTRY="${ENTRY}### 🐞 Fixes\n\n${FIXED}\n"
+            SECTIONS=$((SECTIONS + 1))
+          fi
+          if [ "$SECTIONS" -eq 0 ]; then
+            ENTRY="${ENTRY}### 🔄 Cambios\n\n- Mejoras internas y correcciones\n"
+          fi
+
+          printf "%b" "$ENTRY" > /tmp/changelog_entry.txt
+          echo "Generated CHANGELOG entry:"
+          cat /tmp/changelog_entry.txt
+
+      - name: Update CHANGELOG.md
+        if: steps.tag_check.outputs.SKIP == 'false'
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.version.outputs.VERSION }}"
+
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+
+          ENTRY=$(cat /tmp/changelog_entry.txt)
+
+          if [ ! -f "CHANGELOG.md" ]; then
+            printf "# Changelog\n\n---\n\n" > CHANGELOG.md
+          fi
+
+          HEADER_LINE=$(grep -n "^# Changelog" CHANGELOG.md | head -1 | cut -d: -f1)
+          if [ -n "$HEADER_LINE" ]; then
+            SPLIT=$(awk -v start="$HEADER_LINE" 'NR > start && /^---$/ {print NR; exit}' CHANGELOG.md)
+          else
+            SPLIT=$(grep -n "^---$" CHANGELOG.md | head -1 | cut -d: -f1)
+          fi
+
+          if [ -n "$SPLIT" ]; then
+            HEAD_LINES=$(head -n "$SPLIT" CHANGELOG.md)
+            TAIL_LINES=$(tail -n +$((SPLIT + 1)) CHANGELOG.md)
+            printf "%s\n\n%s\n\n---\n%s" "$HEAD_LINES" "$ENTRY" "$TAIL_LINES" > CHANGELOG.md
+          else
+            printf "%s\n---\n\n%s" "$ENTRY" "$(cat CHANGELOG.md)" > CHANGELOG.md
+          fi
+
+          git add CHANGELOG.md
+          git commit -m "chore(release): update CHANGELOG.md for v${VERSION} [skip ci]"
+          git push origin main
+
+      - name: Create GitHub Release
+        if: steps.tag_check.outputs.SKIP == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: "Guardianes del Litoral v${{ steps.version.outputs.VERSION }}"
+          body_path: /tmp/changelog_entry.txt
+          files: dist/guardianes-v${{ steps.version.outputs.VERSION }}.exe
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "════════════════════════════════════════"
+          echo "  Release Pipeline Complete"
+          echo "  Version : v${{ steps.version.outputs.VERSION }}"
+          echo "  Binary  : guardianes-v${{ steps.version.outputs.VERSION }}.exe"
+          echo "════════════════════════════════════════"
