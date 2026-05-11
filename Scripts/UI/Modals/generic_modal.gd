@@ -12,7 +12,7 @@ var accion_callback = null
 func _ready():
 	visible = false
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	
+
 	confirm_btn.pressed.connect(_on_si_pressed)
 	exit_btn.pressed.connect(_on_no_pressed)
 
@@ -20,14 +20,14 @@ func _ready():
 func mostrar(nombre_objeto: String, callback = null):
 	label.text = "¿DESEAS EXPLORAR: %s?" % nombre_objeto
 	accion_callback = callback
-	
+
 	await _fade_in()
 
 
 func mostrar_texto(texto: String, callback = null):
 	label.text = texto
 	accion_callback = callback
-	
+
 	await _fade_in()
 
 
@@ -40,7 +40,7 @@ func _input(event):
 func _fade_in():
 	visible = true
 	get_tree().paused = true
-	
+
 	audio.play()
 
 	panel.modulate.a = 0.0
@@ -62,7 +62,7 @@ func _fade_out():
 		.set_trans(Tween.TRANS_LINEAR)
 
 	await tween.finished
-	
+
 	visible = false
 	get_tree().paused = false
 

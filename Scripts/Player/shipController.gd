@@ -56,11 +56,11 @@ func get_keyboard_direction() -> Vector2:
 # INPUT MOUSE
 func handle_mouse_input():
 	if Input.is_action_just_pressed("mouse_left"):
-		
+
 		# IGNORA CLICKS EN UI
 		if get_viewport().gui_get_hovered_control() != null:
 			return
-		
+
 		target_position = get_global_mouse_position()
 		using_mouse = true
 
