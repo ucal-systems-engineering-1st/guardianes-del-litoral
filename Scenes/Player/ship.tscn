@@ -14,6 +14,7 @@
 radius = 55.946404
 
 [node name="Ship" type="CharacterBody2D" unique_id=1953170900]
+scale = Vector2(0.8, 0.8)
 script = ExtResource("1_5ethb")
 tex_up = ExtResource("2_em7dj")
 tex_down = ExtResource("2_5ethb")

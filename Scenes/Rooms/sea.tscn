@@ -36,17 +36,17 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7yquu"]
-size = Vector2(422, 83)
+size = Vector2(528, 104)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_ybolt"]
-a = Vector2(965, 697)
-b = Vector2(1, 702)
+a = Vector2(1206, 871)
+b = Vector2(1, 878)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_7yquu"]
-a = Vector2(1, 699)
+a = Vector2(1, 874)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_8huyp"]
-a = Vector2(653, 8)
+a = Vector2(816, 10)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8huyp"]
 radius = 37.01351
@@ -105,12 +105,13 @@ corner_detail = 5
 script = ExtResource("1_qf70t")
 
 [node name="Ship" parent="." unique_id=1953170900 instance=ExtResource("1_4yebs")]
-position = Vector2(636, 631)
+position = Vector2(795, 789)
 
 [node name="Sea_bg" type="AnimatedSprite2D" parent="." unique_id=688049322]
 z_index = -1
 texture_filter = 1
-position = Vector2(643, 361)
+position = Vector2(800, 450)
+scale = Vector2(1.25, 1.25)
 sprite_frames = SubResource("SpriteFrames_7yquu")
 animation = &"sea_movement"
 frame_progress = 0.5886859
@@ -125,21 +126,21 @@ autoplay = true
 [node name="CoastCollision" type="StaticBody2D" parent="." unique_id=1440038020]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CoastCollision" unique_id=1212464670]
-position = Vector2(2, 0)
-polygon = PackedVector2Array(1272, 1, 699, 6, 641, 43, 621, 109, 681, 163, 732, 223, 738, 288, 778, 327, 789, 459, 773, 508, 832, 560, 817, 593, 841, 627, 993, 717, 1278, 717)
+position = Vector2(3, 0)
+polygon = PackedVector2Array(1590, 1, 874, 8, 801, 54, 776, 136, 851, 204, 915, 279, 923, 360, 973, 409, 986, 574, 966, 635, 1040, 700, 1021, 741, 1051, 784, 1241, 896, 1598, 896)
 
 [node name="LimitCollision" type="StaticBody2D" parent="." unique_id=82483781]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LimitCollision" unique_id=1885682212]
-position = Vector2(212, 43.5)
+position = Vector2(265, 54)
 shape = SubResource("RectangleShape2D_7yquu")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="LimitCollision" unique_id=2118691925]
-position = Vector2(15, 4)
+position = Vector2(19, 5)
 shape = SubResource("SegmentShape2D_ybolt")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="LimitCollision" unique_id=1716342302]
-position = Vector2(17, 9)
+position = Vector2(21, 11)
 shape = SubResource("SegmentShape2D_7yquu")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="LimitCollision" unique_id=1538679386]
@@ -149,35 +150,35 @@ shape = SubResource("SegmentShape2D_8huyp")
 script = ExtResource("6_ybolt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Paracas" unique_id=1116741230]
-position = Vector2(854, 609)
+position = Vector2(1068, 761)
 shape = SubResource("CircleShape2D_8huyp")
 
 [node name="San Juan" type="Area2D" parent="." unique_id=203089470]
 script = ExtResource("7_hblrw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="San Juan" unique_id=61001134]
-position = Vector2(795, 498)
+position = Vector2(994, 623)
 shape = SubResource("CircleShape2D_8huyp")
 
 [node name="Sechura" type="Area2D" parent="." unique_id=1911444850]
 script = ExtResource("8_nha1c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sechura" unique_id=1216159924]
-position = Vector2(625, 77)
+position = Vector2(781, 96)
 shape = SubResource("CircleShape2D_8huyp")
 
 [node name="Villa" type="Area2D" parent="." unique_id=381415537]
 script = ExtResource("9_y3aj6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Villa" unique_id=1974844040]
-position = Vector2(740, 259)
+position = Vector2(925, 324)
 shape = SubResource("CircleShape2D_8huyp")
 
 [node name="Islas Ballestas" type="Area2D" parent="." unique_id=1342539118]
 script = ExtResource("10_tcafm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Islas Ballestas" unique_id=499072554]
-position = Vector2(790, 370)
+position = Vector2(988, 463)
 shape = SubResource("CircleShape2D_8huyp")
 
 [node name="generic_modal" parent="." unique_id=142407682 instance=ExtResource("11_nha1c")]
@@ -185,10 +186,10 @@ visible = false
 
 [node name="SalirBtn" type="Button" parent="." unique_id=337717589]
 texture_filter = 1
-offset_left = 1130.0
-offset_top = 26.0
-offset_right = 1258.0
-offset_bottom = 85.0
+offset_left = 1413.0
+offset_top = 33.0
+offset_right = 1573.0
+offset_bottom = 106.0
 theme_override_fonts/font = ExtResource("12_y3aj6")
 theme_override_styles/normal = SubResource("StyleBoxFlat_tcafm")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ge86e")

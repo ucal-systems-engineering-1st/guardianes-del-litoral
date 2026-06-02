@@ -9,7 +9,11 @@
 [node name="Intro" type="Control" unique_id=280082261]
 texture_filter = 1
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_tx7ly")
 fondo_dr_habla = ExtResource("1_tvpmh")
 fondo_valentina_habla = ExtResource("3_lof4p")
@@ -18,10 +22,12 @@ fondo_dr_final = ExtResource("4_q7xim")
 [node name="TextureRect" type="TextureRect" parent="." unique_id=936580271]
 texture_filter = 1
 layout_mode = 1
-offset_right = 1280.0
-offset_bottom = 720.0
-size_flags_horizontal = 0
-size_flags_vertical = 4
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1220726149]
 stream = ExtResource("3_ittcp")
