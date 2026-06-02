@@ -138,7 +138,11 @@ func _handle_shooting(delta: float) -> void:
 	var dist: float = global_position.distance_to(_player_ship.global_position)
 
 	if dist <= detection_range and _fire_timer <= 0.0:
-		_fire_toward(_player_ship.global_position)
+		# 60% probabilidad de tiro dirigido simple, 40% de ráfaga radial de 3 proyectiles
+		if randf() < 0.4:
+			_fire_radial(_player_ship.global_position)
+		else:
+			_fire_toward(_player_ship.global_position)
 		_fire_timer = fire_rate
 
 
@@ -152,6 +156,24 @@ func _fire_toward(target_pos: Vector2) -> void:
 	# Spawna el proyectil en la escena padre para que no herede transformaciones
 	get_parent().add_child(projectile)
 	projectile.global_position = global_position
+
+
+func _fire_radial(target_pos: Vector2) -> void:
+	if projectile_scene == null:
+		return
+
+	var base_dir: Vector2 = (target_pos - global_position).normalized()
+	# Disparamos 3 proyectiles: central, y dos desviados ±15 grados (0.26 radianes)
+	var angles := [-0.26, 0.0, 0.26]
+	
+	for angle in angles:
+		var dir := base_dir.rotated(angle)
+		var projectile: Area2D = projectile_scene.instantiate()
+		projectile.direction = dir
+		# Hacemos las balas radiales ligeramente más lentas para dar margen de esquive
+		projectile.speed = 210.0
+		get_parent().add_child(projectile)
+		projectile.global_position = global_position
 
 
 # ---------------------------------------------------------------------------

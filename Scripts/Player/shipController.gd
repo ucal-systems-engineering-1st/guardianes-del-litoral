@@ -28,24 +28,37 @@ var float_time: float = 0.0
 @export var float_speed: float = 2.0
 var base_position_y: float
 
+# Ralentización por daño de residuo tóxico
+var _slow_timer: float = 0.0
+var _slow_factor: float = 1.0
+
+
 func _ready():
 	target_position = global_position
 	base_position_y = sprite.position.y
 	# Registra al barco en el grupo para que el enemigo pueda encontrarlo
 	add_to_group("player_ship")
 
+
 func _physics_process(delta):
+	# Actualiza el temporizador de ralentización
+	if _slow_timer > 0.0:
+		_slow_timer -= delta
+		if _slow_timer <= 0.0:
+			_slow_factor = 1.0
+
 	var keyboard_dir = get_keyboard_direction()
 
 	if keyboard_dir != Vector2.ZERO:
 		using_mouse = false
 		input_direction = keyboard_dir
-		velocity = keyboard_dir * speed
+		velocity = keyboard_dir * speed * _slow_factor
 	else:
 		handle_mouse_input()
 		move_to_target()
 
 	move_and_slide()
+
 	update_sprite()
 	update_float(delta)
 
@@ -81,7 +94,7 @@ func move_to_target():
 		return
 
 	input_direction = direction.normalized()
-	velocity = input_direction * speed
+	velocity = input_direction * speed * _slow_factor
 
 # SPRITES (8 direcciones usando ángulo)
 func update_sprite():
@@ -128,4 +141,9 @@ func take_hit() -> void:
 	var tween := create_tween()
 	tween.tween_property(sprite, "modulate", Color(1.0, 0.15, 0.15, 1.0), 0.08)
 	tween.tween_property(sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.25)
-	print("[Ship] ¡Impactado por el Armador Industrial!")
+	
+	# Ralentiza la velocidad al 60% (40% de reducción) durante 1.5s
+	_slow_factor = 0.6
+	_slow_timer = 1.5
+	
+	print("[Ship] ¡Impactado por el Armador Industrial! Ralentización del 40% aplicada.")

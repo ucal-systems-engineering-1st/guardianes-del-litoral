@@ -14,6 +14,7 @@ func _ready() -> void:
 	_screen_size = get_viewport_rect().size
 	body_entered.connect(_on_body_entered)
 
+
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 
@@ -22,8 +23,23 @@ func _physics_process(delta: float) -> void:
 	or position.y < -100 or position.y > _screen_size.y + 100:
 		queue_free()
 
+
 func _on_body_entered(body: Node) -> void:
 	if body.name == "Ship":
 		# Notifica al barco aliado que fue impactado
 		body.take_hit()
+		_spawn_splash()
 		queue_free()
+	elif body is StaticBody2D:
+		# Choca contra la costa o límites
+		_spawn_splash()
+		queue_free()
+
+
+func _spawn_splash() -> void:
+	var splash_script := load("res://Scripts/Enemy/foe_splash_effect.gd")
+	var splash := Node2D.new()
+	splash.set_script(splash_script)
+	get_parent().add_child(splash)
+	splash.global_position = global_position
+
