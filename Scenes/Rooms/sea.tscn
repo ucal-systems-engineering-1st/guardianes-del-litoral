@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://o8y4olfrpou7"]
 
 [ext_resource type="PackedScene" uid="uid://cwvm4fbbd77sv" path="res://Scenes/Player/ship.tscn" id="1_4yebs"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemy/foe_ship.tscn" id="99_foe"]
 [ext_resource type="Script" uid="uid://rbwxn7ifpxwj" path="res://Scripts/Rooms/sea.gd" id="1_qf70t"]
 [ext_resource type="Texture2D" uid="uid://utrxibwsnt5i" path="res://Resources/Rooms/mar1-Sheet.png" id="2_7ur65"]
 [ext_resource type="PackedScene" uid="uid://b4xsuvdpgvdtp" path="res://Scenes/Modals/exit_modal.tscn" id="4_4ndr1"]
@@ -195,5 +196,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_tcafm")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ge86e")
 theme_override_styles/hover = SubResource("StyleBoxFlat_y3aj6")
 text = "SALIR"
+
+[node name="FoeShip" parent="." instance=ExtResource("99_foe")]
+position = Vector2(500, 250)
 
 [connection signal="pressed" from="SalirBtn" to="exit_modal" method="_on_salir_btn_pressed"]

@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Enemy/foe_ship_controller.gd" id="1_foe"]
+[ext_resource type="Texture2D" path="res://Resources/Player/foe-ship-moveset/foe-ship-down.png" id="2_foe"]
+[ext_resource type="Texture2D" path="res://Resources/Player/foe-ship-moveset/foe-ship-top.png" id="3_foe"]
+[ext_resource type="Texture2D" path="res://Resources/Player/foe-ship-moveset/foe-ship-left.png" id="4_foe"]
+[ext_resource type="Texture2D" path="res://Resources/Player/foe-ship-moveset/foe-ship-right.png" id="5_foe"]
+[ext_resource type="Texture2D" path="res://Resources/Player/foe-ship-moveset/foe-ship-top-left.png" id="6_foe"]
+[ext_resource type="Texture2D" path="res://Resources/Player/foe-ship-moveset/foe-ship-top-right.png" id="7_foe"]
+[ext_resource type="Texture2D" path="res://Resources/Player/foe-ship-moveset/foe-ship-down-left.png" id="8_foe"]
+[ext_resource type="Texture2D" path="res://Resources/Player/foe-ship-moveset/foe-ship-down-right.png" id="9_foe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_foe"]
+radius = 35.0
+
+[node name="FoeShip" type="CharacterBody2D"]
+script = ExtResource("1_foe")
+patrol_speed = 60.0
+fire_rate = 3.5
+detection_range = 380.0
+float_amplitude = 2.5
+float_speed = 1.8
+tex_up = ExtResource("3_foe")
+tex_down = ExtResource("2_foe")
+tex_left = ExtResource("4_foe")
+tex_right = ExtResource("5_foe")
+tex_up_left = ExtResource("6_foe")
+tex_up_right = ExtResource("7_foe")
+tex_down_left = ExtResource("8_foe")
+tex_down_right = ExtResource("9_foe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("2_foe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_foe")

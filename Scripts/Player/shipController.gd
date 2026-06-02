@@ -31,6 +31,8 @@ var base_position_y: float
 func _ready():
 	target_position = global_position
 	base_position_y = sprite.position.y
+	# Registra al barco en el grupo para que el enemigo pueda encontrarlo
+	add_to_group("player_ship")
 
 func _physics_process(delta):
 	var keyboard_dir = get_keyboard_direction()
@@ -118,3 +120,12 @@ func update_sprite():
 func update_float(delta: float):
 	float_time += delta
 	sprite.position.y = base_position_y + sin(float_time * float_speed) * float_amplitude
+
+
+# IMPACTO — llamado por foe_projectile al colisionar
+func take_hit() -> void:
+	# Flash rojo como feedback visual de impacto
+	var tween := create_tween()
+	tween.tween_property(sprite, "modulate", Color(1.0, 0.15, 0.15, 1.0), 0.08)
+	tween.tween_property(sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.25)
+	print("[Ship] ¡Impactado por el Armador Industrial!")
