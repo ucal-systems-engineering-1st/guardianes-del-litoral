@@ -41,8 +41,8 @@ extends CharacterBody2D
 
 @onready var sprite: Sprite2D = $Sprite2D
 
-## Escena del proyectil a instanciar
-var projectile_scene: PackedScene
+## Escena de la bala de cañón a instanciar
+var cannonball_scene: PackedScene
 
 ## Referencia al barco del jugador (se busca automáticamente)
 var _player_ship: Node2D
@@ -69,8 +69,8 @@ var _fire_timer: float = 0.0
 func _ready() -> void:
 	_base_position_y = sprite.position.y
 
-	# Carga el proyectil desde su escena
-	projectile_scene = load("res://Scenes/Enemy/foe_projectile.tscn")
+	# Carga la bala de cañón con rebote
+	cannonball_scene = load("res://Scenes/Enemy/foe_cannonball.tscn")
 
 	# Busca el barco del jugador en el árbol de la escena
 	_player_ship = get_tree().get_first_node_in_group("player_ship")
@@ -147,33 +147,51 @@ func _handle_shooting(delta: float) -> void:
 
 
 func _fire_toward(target_pos: Vector2) -> void:
-	if projectile_scene == null:
+	if cannonball_scene == null:
 		return
 
-	var projectile: Area2D = projectile_scene.instantiate()
-	projectile.direction = (target_pos - global_position).normalized()
+	var dir := (target_pos - global_position).normalized()
+	var cannonball: CharacterBody2D = cannonball_scene.instantiate()
+	cannonball.direction = dir
+	cannonball.shooter = self
 
-	# Spawna el proyectil en la escena padre para que no herede transformaciones
-	get_parent().add_child(projectile)
-	projectile.global_position = global_position
+	# Spawna la bala en la escena padre con un offset para que nazca FUERA del barco
+	get_parent().add_child(cannonball)
+	cannonball.global_position = global_position + dir * 30.0
+
+	# Línea de trayectoria efímera
+	_spawn_fire_line(dir)
 
 
 func _fire_radial(target_pos: Vector2) -> void:
-	if projectile_scene == null:
+	if cannonball_scene == null:
 		return
 
 	var base_dir: Vector2 = (target_pos - global_position).normalized()
-	# Disparamos 3 proyectiles: central, y dos desviados ±15 grados (0.26 radianes)
+	# Disparamos 3 balas de cañón: central, y dos desviadas ±15 grados (0.26 radianes)
 	var angles := [-0.26, 0.0, 0.26]
 	
 	for angle in angles:
 		var dir := base_dir.rotated(angle)
-		var projectile: Area2D = projectile_scene.instantiate()
-		projectile.direction = dir
+		var cannonball: CharacterBody2D = cannonball_scene.instantiate()
+		cannonball.direction = dir
+		cannonball.shooter = self
 		# Hacemos las balas radiales ligeramente más lentas para dar margen de esquive
-		projectile.speed = 210.0
-		get_parent().add_child(projectile)
-		projectile.global_position = global_position
+		cannonball.speed = 210.0
+		get_parent().add_child(cannonball)
+		cannonball.global_position = global_position + dir * 30.0
+
+	# Línea de trayectoria solo para la dirección central
+	_spawn_fire_line(base_dir)
+
+
+func _spawn_fire_line(dir: Vector2) -> void:
+	var line_script := load("res://Scripts/Enemy/foe_fire_line.gd")
+	var line := Node2D.new()
+	line.set_script(line_script)
+	line.fire_direction = dir
+	get_parent().add_child(line)
+	line.global_position = global_position
 
 
 # ---------------------------------------------------------------------------

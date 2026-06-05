@@ -4,7 +4,7 @@
 
 extends Node2D
 
-var color: Color = Color(0.1, 0.45, 0.1, 0.75) # Verde petróleo tóxico
+var color: Color = Color(0.12, 0.1, 0.1, 0.8) # Negro/gris oscuro de aceite industrial
 var max_radius: float = 24.0
 var duration: float = 0.5
 var _radius: float = 2.0
