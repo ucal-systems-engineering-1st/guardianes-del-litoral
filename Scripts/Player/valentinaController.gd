@@ -8,6 +8,11 @@ extends CharacterBody2D
 var input_direction: Vector2 = Vector2.ZERO
 var last_direction: Vector2 = Vector2.DOWN
 
+var _knockback_dir: Vector2 = Vector2.ZERO
+var _knockback_speed: float = 0.0
+var _knockback_timer: float = 0.0
+const KNOCKBACK_DURATION: float = 0.45
+
 
 # Animación del spritesheet
 const FRAMES_PER_ANIMATION: int = 4
@@ -34,11 +39,26 @@ func _ready():
 	sprite.frame = 0
 
 
+func apply_knockback(impulso: Vector2) -> void:
+	_knockback_dir = impulso.normalized()
+	_knockback_speed = impulso.length()
+	_knockback_timer = KNOCKBACK_DURATION
+
+
 func _physics_process(delta: float):
 
 	if get_tree().paused:
 		velocity = Vector2.ZERO
 		move_and_slide()
+		return
+
+	if _knockback_timer > 0.0:
+		_knockback_timer -= delta
+		var t = clamp(_knockback_timer / KNOCKBACK_DURATION, 0.0, 1.0)
+		# sqrt da velocidad alta al inicio que frena rápido — sensación de impacto
+		velocity = _knockback_dir * _knockback_speed * sqrt(t)
+		move_and_slide()
+		update_animation(delta)
 		return
 
 	var keyboard_dir = get_keyboard_direction()
