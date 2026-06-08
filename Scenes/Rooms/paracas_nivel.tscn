@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dj7cw3ugl57sd" path="res://Resources/Player/dr.alejandro/2-Dr. Alejandro Ramos.png" id="9b_dr_tex_talk"]
 [ext_resource type="Texture2D" uid="uid://bdjd5e7osfqas" path="res://Resources/Player/dr.alejandro/1-Dr. Alejandro Ramos.png" id="9_dr_tex"]
 [ext_resource type="Script" uid="uid://clpaxijau4co3" path="res://Scripts/NPC/dr_alejandro.gd" id="10_dr_script"]
+[ext_resource type="PackedScene" uid="uid://dtortuga00001" path="res://Scenes/NPC/tortuga.tscn" id="11_tortuga"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g1kj4"]
 texture = ExtResource("3_y2heq")
@@ -1893,3 +1894,6 @@ offset_right = -40.0
 offset_bottom = -110.0
 theme_override_font_sizes/font_size = 14
 text = "[ E ] Hablar"
+
+[node name="Tortuga" parent="." unique_id=-1293967295 instance=ExtResource("11_tortuga")]
+position = Vector2(716, 851)

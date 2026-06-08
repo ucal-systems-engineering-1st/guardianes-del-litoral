@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dtortuga00001"]
+
+[ext_resource type="Script" path="res://Scripts/NPC/tortuga.gd" id="1_tortuga"]
+[ext_resource type="Texture2D" uid="uid://b80vxba4e1330" path="res://Resources/Player/tortuga/tortugas.jpeg" id="2_tortuga"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_det"]
+radius = 40.0
+
+[node name="Tortuga" type="CharacterBody2D"]
+script = ExtResource("1_tortuga")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("2_tortuga")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="AreaDeteccion" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaDeteccion"]
+shape = SubResource("CircleShape2D_det")
