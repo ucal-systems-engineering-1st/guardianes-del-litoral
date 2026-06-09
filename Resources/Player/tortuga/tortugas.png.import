@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b80vxba4e1330"
-path="res://.godot/imported/tortugas.jpeg-fcbb535920c76889cd0ec61664db3dd3.ctex"
+uid="uid://cfaa78m31mm6u"
+path="res://.godot/imported/tortugas.png-411439d41b8c1d292f6f8a991ddb0206.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/Player/tortuga/tortugas.jpeg"
-dest_files=["res://.godot/imported/tortugas.jpeg-fcbb535920c76889cd0ec61664db3dd3.ctex"]
+source_file="res://Resources/Player/tortuga/tortugas.png"
+dest_files=["res://.godot/imported/tortugas.png-411439d41b8c1d292f6f8a991ddb0206.ctex"]
 
 [params]
 

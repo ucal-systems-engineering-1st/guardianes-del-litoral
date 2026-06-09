@@ -1,25 +1,30 @@
 [gd_scene format=3 uid="uid://dtortuga00001"]
 
-[ext_resource type="Script" path="res://Scripts/NPC/tortuga.gd" id="1_tortuga"]
-[ext_resource type="Texture2D" uid="uid://b80vxba4e1330" path="res://Resources/Player/tortuga/tortugas.jpeg" id="2_tortuga"]
+[ext_resource type="Script" uid="uid://dk7uifomuojiy" path="res://Scripts/NPC/tortuga.gd" id="1_tortuga"]
+[ext_resource type="Texture2D" uid="uid://cfaa78m31mm6u" path="res://Resources/Player/tortuga/tortugas.png" id="2_tga5s"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_body"]
 radius = 16.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_det"]
-radius = 40.0
+radius = 136.01471
 
-[node name="Tortuga" type="CharacterBody2D"]
+[node name="Tortuga" type="CharacterBody2D" unique_id=783331514]
 script = ExtResource("1_tortuga")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.08, 0.08)
-texture = ExtResource("2_tortuga")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=271665048]
+texture_filter = 1
+position = Vector2(-4, -69)
+scale = Vector2(2, 2)
+texture = ExtResource("2_tga5s")
+hframes = 4
+vframes = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1325549415]
 shape = SubResource("CircleShape2D_body")
 
-[node name="AreaDeteccion" type="Area2D" parent="."]
+[node name="AreaDeteccion" type="Area2D" parent="." unique_id=1794643808]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaDeteccion"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaDeteccion" unique_id=706579019]
+position = Vector2(0, 14)
 shape = SubResource("CircleShape2D_det")
