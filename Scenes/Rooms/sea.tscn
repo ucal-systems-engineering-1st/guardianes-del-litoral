@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://e7veji7tyr1r" path="res://Scripts/Rooms/islas_ballestas.gd" id="10_tcafm"]
 [ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/generic_modal.tscn" id="11_nha1c"]
 [ext_resource type="FontFile" uid="uid://b332fbutohcui" path="res://Fonts/PressStart2P-Regular.ttf" id="12_y3aj6"]
+[ext_resource type="PackedScene" path="res://Scenes/Modals/game_over_modal.tscn" id="13_gomod"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qf70t"]
 atlas = ExtResource("2_7ur65")
@@ -199,5 +200,8 @@ text = "SALIR"
 
 [node name="FoeShip" parent="." instance=ExtResource("99_foe")]
 position = Vector2(500, 250)
+
+[node name="game_over_modal" parent="." instance=ExtResource("13_gomod")]
+visible = false
 
 [connection signal="pressed" from="SalirBtn" to="exit_modal" method="_on_salir_btn_pressed"]
