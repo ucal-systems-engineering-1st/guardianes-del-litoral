@@ -76,7 +76,6 @@ func _ready() -> void:
 	_player_ship = get_tree().get_first_node_in_group("player_ship")
 
 	# Generamos una ruta elíptica dinámica en mar abierto para evitar colisiones
-	# Centro en mar abierto, radios que previenen tocar la costa (X < 750)
 	var center := Vector2(450.0, 400.0)
 	var rx := 280.0
 	var ry := 220.0
@@ -209,13 +208,13 @@ func _update_sprite() -> void:
 	dir = dir.normalized()
 
 	var angle: float = atan2(dir.y, dir.x)
-	var deg: float   = rad_to_deg(angle)
+	var deg: float = rad_to_deg(angle)
 	if deg < 0:
 		deg += 360.0
 
-	if   deg >= 337.5 or  deg <  22.5: sprite.texture = tex_right
-	elif deg >=  22.5 and deg <  67.5: sprite.texture = tex_down_right
-	elif deg >=  67.5 and deg < 112.5: sprite.texture = tex_down
+	if deg >= 337.5 or deg < 22.5: sprite.texture = tex_right
+	elif deg >= 22.5 and deg < 67.5: sprite.texture = tex_down_right
+	elif deg >= 67.5 and deg < 112.5: sprite.texture = tex_down
 	elif deg >= 112.5 and deg < 157.5: sprite.texture = tex_down_left
 	elif deg >= 157.5 and deg < 202.5: sprite.texture = tex_left
 	elif deg >= 202.5 and deg < 247.5: sprite.texture = tex_up_left
