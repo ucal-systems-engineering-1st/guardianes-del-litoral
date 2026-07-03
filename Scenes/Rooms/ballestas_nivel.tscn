@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dw05yy8vv5x2n" path="res://Scripts/Environment/tacho.gd" id="8_pwnh6"]
 [ext_resource type="PackedScene" uid="uid://d3gyt3i7qlkyu" path="res://Scenes/Player/valentina.tscn" id="9_kj34n"]
 [ext_resource type="PackedScene" uid="uid://77tastmm4mn6" path="res://Scenes/Modals/generic_modal.tscn" id="9_nx7pl"]
-[ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/game_over_modal.tscn" id="10_qwbaj"]
+[ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/game_over_stage_modal.tscn" id="10_qwbaj"]
 [ext_resource type="PackedScene" uid="uid://dxvbitprgcbs2" path="res://Scenes/UI/return_to_map_btn.tscn" id="11_gyutp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5cgbg"]
@@ -121,16 +121,12 @@ script = ExtResource("8_pwnh6")
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_nx7pl")
 
-[node name="game_over_modal" parent="." unique_id=1942044467 instance=ExtResource("10_qwbaj")]
+[node name="game_over_stage_modal" parent="." unique_id=1942044467 instance=ExtResource("10_qwbaj")]
 
-[node name="generic_modal" parent="." unique_id=589785467 instance=ExtResource("9_nx7pl")]
-
-[node name="Contenedor" parent="generic_modal/Panel" parent_id_path=PackedInt32Array(589785467, 979779606) index="1" unique_id=1598467785]
-visible = false
+[node name="generic_modal" parent="." unique_id=2062529320 instance=ExtResource("9_nx7pl")]
 
 [connection signal="body_entered" from="Barco/Area2D" to="Barco" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Valentina/Area2D" to="Valentina" method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Basura/Area2D" to="Basura/Area2D" method="_on_body_entered"]
 
 [editable path="Valentina"]
-[editable path="generic_modal"]
