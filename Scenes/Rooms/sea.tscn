@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://o8y4olfrpou7"]
 
 [ext_resource type="PackedScene" uid="uid://cwvm4fbbd77sv" path="res://Scenes/Player/ship.tscn" id="1_4yebs"]
-[ext_resource type="PackedScene" path="res://Scenes/Enemy/foe_ship.tscn" id="99_foe"]
 [ext_resource type="Script" uid="uid://rbwxn7ifpxwj" path="res://Scripts/Rooms/sea.gd" id="1_qf70t"]
 [ext_resource type="Texture2D" uid="uid://utrxibwsnt5i" path="res://Resources/Rooms/mar1-Sheet.png" id="2_7ur65"]
 [ext_resource type="PackedScene" uid="uid://b4xsuvdpgvdtp" path="res://Scenes/Modals/exit_modal.tscn" id="4_4ndr1"]
@@ -11,8 +10,9 @@
 [ext_resource type="Script" uid="uid://c2pciwddqjk53" path="res://Scripts/Rooms/sechura.gd" id="8_nha1c"]
 [ext_resource type="Script" uid="uid://cap1lmrvyqqsh" path="res://Scripts/Rooms/villa.gd" id="9_y3aj6"]
 [ext_resource type="Script" uid="uid://e7veji7tyr1r" path="res://Scripts/Rooms/islas_ballestas.gd" id="10_tcafm"]
-[ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/generic_modal.tscn" id="11_nha1c"]
+[ext_resource type="PackedScene" uid="uid://77tastmm4mn6" path="res://Scenes/Modals/generic_modal.tscn" id="11_nha1c"]
 [ext_resource type="FontFile" uid="uid://b332fbutohcui" path="res://Fonts/PressStart2P-Regular.ttf" id="12_y3aj6"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemy/foe_ship.tscn" id="99_foe"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qf70t"]
 atlas = ExtResource("2_7ur65")
@@ -117,9 +117,6 @@ sprite_frames = SubResource("SpriteFrames_7yquu")
 animation = &"sea_movement"
 frame_progress = 0.5886859
 
-[node name="exit_modal" parent="." unique_id=1942044467 instance=ExtResource("4_4ndr1")]
-visible = false
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1096278703]
 stream = ExtResource("5_7yquu")
 autoplay = true
@@ -182,9 +179,6 @@ script = ExtResource("10_tcafm")
 position = Vector2(988, 463)
 shape = SubResource("CircleShape2D_8huyp")
 
-[node name="generic_modal" parent="." unique_id=142407682 instance=ExtResource("11_nha1c")]
-visible = false
-
 [node name="SalirBtn" type="Button" parent="." unique_id=337717589]
 texture_filter = 1
 offset_left = 1413.0
@@ -197,7 +191,12 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_ge86e")
 theme_override_styles/hover = SubResource("StyleBoxFlat_y3aj6")
 text = "SALIR"
 
-[node name="FoeShip" parent="." instance=ExtResource("99_foe")]
+[node name="FoeShip" parent="." unique_id=364714516 instance=ExtResource("99_foe")]
 position = Vector2(500, 250)
 
-[connection signal="pressed" from="SalirBtn" to="exit_modal" method="_on_salir_btn_pressed"]
+[node name="generic_modal" parent="." unique_id=272039725 instance=ExtResource("11_nha1c")]
+
+[node name="exit_modal" parent="." unique_id=1942044467 instance=ExtResource("4_4ndr1")]
+
+[editable path="generic_modal"]
+[editable path="exit_modal"]

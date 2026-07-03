@@ -6,7 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://d3gyt3i7qlkyu" path="res://Scenes/Player/valentina.tscn" id="3_pnivel"]
 [ext_resource type="Texture2D" uid="uid://utrxibwsnt5i" path="res://Resources/Rooms/mar1-Sheet.png" id="3_y2heq"]
 [ext_resource type="PackedScene" uid="uid://dxvbitprgcbs2" path="res://Scenes/UI/return_to_map_btn.tscn" id="4_pnivel"]
-[ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/generic_modal.tscn" id="5_pnivel"]
+[ext_resource type="PackedScene" uid="uid://77tastmm4mn6" path="res://Scenes/Modals/generic_modal.tscn" id="5_pnivel"]
+[ext_resource type="Script" uid="uid://bc3ypu8o1tfop" path="res://Scripts/NPC/barco.gd" id="6_1j7db"]
 [ext_resource type="Script" uid="uid://dt17p17o3gdxs" path="res://Scripts/Rooms/paracas_nivel.gd" id="6_pnivel"]
 [ext_resource type="Script" uid="uid://bu0a46xs830ln" path="res://Scripts/Environment/gestor_contaminacion.gd" id="7_pnivel"]
 [ext_resource type="PackedScene" path="res://Scenes/Environment/contaminante.tscn" id="8_pnivel"]
@@ -1796,11 +1797,13 @@ tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_sand")
 sources/1 = SubResource("TileSetAtlasSource_color")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_anidacion"]
-radius = 60.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5cgbg"]
+radius = 101.0
+height = 450.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_playa"]
-radius = 60.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1j7db"]
+radius = 66.0
+height = 368.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dr_alejandro"]
 radius = 25.0
@@ -1835,34 +1838,33 @@ rendering_quadrant_size = 32
 z_index = 1
 tile_set = SubResource("TileSet_paracas")
 
-[node name="ZonaAnidacion" type="Area2D" parent="." unique_id=258682199]
+[node name="Barco" type="StaticBody2D" parent="." unique_id=228710862]
+script = ExtResource("6_1j7db")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaAnidacion" unique_id=905978397]
-position = Vector2(162, 1134)
-shape = SubResource("CircleShape2D_anidacion")
+[node name="Area2D" type="Area2D" parent="Barco" unique_id=801799293]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Barco/Area2D" unique_id=900075408]
+position = Vector2(124, 1240)
+shape = SubResource("CapsuleShape2D_5cgbg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Barco" unique_id=955514142]
+position = Vector2(124, 1240)
+shape = SubResource("CapsuleShape2D_1j7db")
 
 [node name="ZonaPlaya" type="Area2D" parent="." unique_id=270501178]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaPlaya" unique_id=1406707074]
-position = Vector2(862, 1034)
-shape = SubResource("CircleShape2D_playa")
 
 [node name="GestorContaminacion" type="Node" parent="." unique_id=1327270994]
 script = ExtResource("7_pnivel")
 contaminante_scene = ExtResource("8_pnivel")
 
 [node name="Valentina" parent="." unique_id=1285488483 instance=ExtResource("3_pnivel")]
-position = Vector2(289, 1101)
+position = Vector2(355, 1027)
 
 [node name="Camera2D" type="Camera2D" parent="Valentina" unique_id=702561326]
 limit_left = 0
 limit_top = 0
 limit_right = 1280
 limit_bottom = 720
-
-[node name="generic_modal" parent="." unique_id=1586911162 instance=ExtResource("5_pnivel")]
-layer = 10
-visible = false
 
 [node name="ReturnToMapButton" parent="." unique_id=1937434407 instance=ExtResource("4_pnivel")]
 
@@ -1897,3 +1899,9 @@ text = "[ E ] Hablar"
 
 [node name="Tortuga" parent="." unique_id=-1293967295 instance=ExtResource("11_tortuga")]
 position = Vector2(394, 755)
+
+[node name="Muelle" type="StaticBody2D" parent="." unique_id=71270316]
+
+[node name="generic_modal" parent="." unique_id=1942044467 instance=ExtResource("5_pnivel")]
+
+[connection signal="body_entered" from="Barco/Area2D" to="Barco" method="_on_area_2d_body_entered"]

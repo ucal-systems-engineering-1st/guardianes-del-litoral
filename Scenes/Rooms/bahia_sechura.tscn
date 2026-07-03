@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c3tjkxhlxt2ym" path="res://Resources/Rooms/Tilemap_color1.png" id="2_nkd0t"]
 [ext_resource type="PackedScene" uid="uid://d3gyt3i7qlkyu" path="res://Scenes/Player/valentina.tscn" id="3_k61bw"]
 [ext_resource type="PackedScene" uid="uid://dxvbitprgcbs2" path="res://Scenes/UI/return_to_map_btn.tscn" id="4_nkd0t"]
-[ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/generic_modal.tscn" id="5_k61bw"]
+[ext_resource type="PackedScene" uid="uid://d1ghfaua5fpe2" path="res://Scenes/Modals/game_over_modal.tscn" id="5_k61bw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sand"]
 texture = ExtResource("1_b6wlr")

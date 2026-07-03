@@ -1,0 +1,28 @@
+~ start
+=> dr_1
+
+
+~ dr_1
+Dr. Alejandro Ramos: Valentina, llegaste a las Islas Ballestas.
+
+Dr. Alejandro Ramos: Unas gaviotas intentan alimentarse de un tacho de basura dejado por los visitantes.
+
+=> valentina
+
+
+~ valentina
+Valentina: Si encuentran comida allí, podrían acostumbrarse a depender de los residuos humanos.
+
+Valentina: Debo impedir que lleguen al tacho.
+
+=> dr_2
+
+
+~ dr_2
+Dr. Alejandro Ramos: Correcto.
+
+Dr. Alejandro Ramos: Acércate a cada gaviota y presiona la tecla **E** para espantarla.
+
+Dr. Alejandro Ramos: ¡No permitas que ninguna llegue al tacho de basura!
+
+=> END

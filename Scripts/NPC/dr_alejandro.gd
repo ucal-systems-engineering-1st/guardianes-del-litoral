@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 
 	# Diálogo al presionar acción
 	if valentina_en_rango and not mision_dada:
-		if Input.is_action_just_pressed("ui_accept"):
+		if Input.is_action_just_pressed("interact"):
 			mision_dada = true
 			indicador.hide()
 			if textura_hablando:

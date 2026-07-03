@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://btxv01o8l04jr"]
+
+[ext_resource type="Script" uid="uid://fvenx88v8jjn" path="res://Scenes/NPC/ave.gd" id="1_3nwcm"]
+[ext_resource type="Texture2D" uid="uid://lyagrk05dxkc" path="res://Resources/Player/ave/ave-1.png" id="1_vvcdb"]
+[ext_resource type="Texture2D" uid="uid://byh4vhdj2265i" path="res://Resources/Player/ave/ave-2.png" id="2_3nwcm"]
+[ext_resource type="Texture2D" uid="uid://bcccd0li8frj7" path="res://Resources/Player/ave/ave-3.png" id="3_kyufj"]
+[ext_resource type="Texture2D" uid="uid://bf2hiwgsduq67" path="res://Resources/Player/ave/ave-4.png" id="4_ujh14"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nu3kf"]
+radius = 76.321686
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f36r5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_vvcdb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_3nwcm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kyufj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ujh14")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 5.0
+}]
+
+[node name="Ave" type="CharacterBody2D" unique_id=100813579]
+script = ExtResource("1_3nwcm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=420307315]
+shape = SubResource("CircleShape2D_nu3kf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1186851512]
+position = Vector2(-1, 3)
+scale = Vector2(0.274, 0.3)
+sprite_frames = SubResource("SpriteFrames_f36r5")
+animation = &"flying"
+frame_progress = 0.3077659
