@@ -1,0 +1,57 @@
+~ mision_sechura_inicio
+
+Ing. Marco Suárez: ¡Hola! Soy el Ing. Marco Suárez, encargado de los cultivos de conchas de abanico aquí en la Bahía de Sechura.
+Ing. Marco Suárez: Menos mal que llegas, Valentina. Tenemos una emergencia ecológica tremenda.
+Ing. Marco Suárez: Hay un brote de marea roja en la bahía. Las toxinas de las microalgas están envenenando el agua y amenazan con matar toda nuestra producción.
+Ing. Marco Suárez: Necesitamos actuar rápido. Varias de nuestras conchas de abanico han sido arrastradas a la orilla del mar por el oleaje.
+Ing. Marco Suárez: ¿Qué quieres hacer?
+
+- ¡Acepto el desafío! ¿Cómo te ayudo? => mision_explicacion
+- ¿Qué es exactamente la marea roja y por qué pasa? => info_marea_roja
+
+~ info_marea_roja
+
+Ing. Marco Suárez: La marea roja es una floración descontrolada de microalgas nocivas. En este caso, son dinoflagelados que tiñen el agua de color marrón-rojizo.
+Ing. Marco Suárez: Estas algas producen toxinas que los moluscos filtradores, como la concha de abanico, acumulan. Si las conchas se contaminan, no solo mueren, sino que se vuelven tóxicas para el consumo humano.
+Ing. Marco Suárez: La contaminación y el aumento de temperatura del agua aceleran este proceso. Por eso es vital limpiar y rescatar las que podamos.
+
+- Entiendo. ¡Vamos a salvar los cultivos! => mision_explicacion
+
+~ mision_explicacion
+
+Ing. Marco Suárez: Excelente. Tu tarea es recorrer la playa a pie y rescatar las conchas de abanico sanas que veas varadas en la arena.
+Ing. Marco Suárez: Recógelas y tráelas a este estanque de agua purificada para salvarlas. Necesitamos rescatar al menos 5 conchas sanas.
+Ing. Marco Suárez: Ojo, en la playa también vas a ver parches de algas rojas tóxicas. Si te acercas a ellos y los limpias con el atomizador (tecla E), vas a evitar que sigan envenenando la arena y ganarás Puntos de Conocimiento (PK).
+Ing. Marco Suárez: ¡Mucha suerte, Valentina! El futuro de la acuicultura en Sechura está en tus manos.
+
+=> END
+
+
+~ mision_sechura_completa
+
+Ing. Marco Suárez: ¡Excelente, Valentina! Salvaste las conchas de abanico y limpiaste la orilla. Pero esto es solo una solución temporal.
+Ing. Marco Suárez: El brote de marea roja en las camas flotantes sigue activo a lo lejos. Tenemos que tomar una decisión sobre cómo manejar esta crisis de forma definitiva.
+Ing. Marco Suárez: Cada opción tiene sus costos y consecuencias. ¿Qué propones hacer?
+
+- Opción A: Implementar un sistema de alerta temprana con sensores tecnológicos. => decision_a
+- Opción B: Coordinar con los acuicultores locales para el cierre temporal de las camas de cultivo. => decision_b
+- Opción C: Solicitar un estudio de impacto ambiental al MINAM y esperar su resolución. => decision_c
+
+~ decision_a
+Ing. Marco Suárez: Un sistema de sensores nos dará datos en tiempo real de temperatura y microalgas. Es costoso, pero nos protegerá a largo plazo.
+Ing. Marco Suárez: ¡Excelente decisión científica! Registrando la elección...
+=> decision_finalizar
+
+~ decision_b
+Ing. Marco Suárez: El cierre temporal evitará que se distribuyan conchas contaminadas, protegiendo a la gente y permitiendo que la bahía se limpie, aunque afectará la economía local a corto plazo.
+Ing. Marco Suárez: ¡Un gran consenso social y sanitario! Registrando la elección...
+=> decision_finalizar
+
+~ decision_c
+Ing. Marco Suárez: Presentar el informe al MINAM es el camino formal, pero los trámites burocráticos tardarán meses y mientras tanto el ecosistema y la producción pueden colapsar.
+Ing. Marco Suárez: Entendido. Esperaremos la respuesta institucional. Registrando la elección...
+=> decision_finalizar
+
+~ decision_finalizar
+Ing. Marco Suárez: Gracias por tu ayuda científica, Valentina. Guardando datos en la Bitácora del Guardián...
+=> END
