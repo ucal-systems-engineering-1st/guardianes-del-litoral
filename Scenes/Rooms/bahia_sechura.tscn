@@ -62,7 +62,7 @@ textura_reposo = ExtResource("7_marco_tex")
 textura_hablando = ExtResource("7_marco_tex")
 
 [node name="Sprite2D" type="Sprite2D" parent="NPCMarco"]
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_marco_tex")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPCMarco"]
