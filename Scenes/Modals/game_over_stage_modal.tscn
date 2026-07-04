@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://d1ghfaua5fpe2"]
+[gd_scene format=3 uid="uid://dscble0whetgm"]
 
 [ext_resource type="Script" uid="uid://dwyuygfk7bjbf" path="res://Scripts/UI/Modals/game_over_stage_modal.gd" id="1_pxynt"]
 [ext_resource type="Texture2D" uid="uid://dsrwvqale86q1" path="res://Resources/Modals/generic-modal.png" id="2_bjhi7"]
