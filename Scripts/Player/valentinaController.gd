@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed: int = 100
+@export var speed: int = 150
 
 @onready var sprite: Sprite2D = $Sprite2D
 
@@ -31,9 +31,12 @@ enum Direction {
 }
 
 var current_direction: int = Direction.DOWN
-
+var gaviota_cercana: CharacterBody2D = null
+@export var objetivo_gaviotas := 3
+var gaviotas_espantadas := 0
 
 func _ready():
+	add_to_group("player")
 	sprite.hframes = 4
 	sprite.vframes = 4
 	sprite.frame = 0
@@ -70,8 +73,29 @@ func _physics_process(delta: float):
 
 	update_direction()
 	update_animation(delta)
+	# Espantar gaviota con E
+	if Input.is_action_just_pressed("interact") and gaviota_cercana:
 
+		gaviota_cercana.queue_free()
+		gaviota_cercana = null
 
+		gaviotas_espantadas += 1
+
+		print("Gaviotas espantadas: ", gaviotas_espantadas, "/", objetivo_gaviotas)
+
+	if gaviotas_espantadas >= objetivo_gaviotas:
+
+		var modal = get_tree().current_scene.get_node("generic_modal")
+
+		modal.mostrar_texto(
+			"🎉 ¡MISIÓN COMPLETADA!\n\nHas protegido el tacho de basura y ahuyentado a todas las gaviotas.\n\nRegresando al mapa..."
+		)
+
+		await get_tree().create_timer(3.0).timeout
+
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://Scenes/Rooms/sea.tscn")
+		
 func get_keyboard_direction() -> Vector2:
 
 	var x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))
@@ -130,3 +154,11 @@ func update_animation(delta: float):
 		current_frame,
 		current_direction
 	)
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("gaviotas"):
+		gaviota_cercana = body
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body == gaviota_cercana:
+		gaviota_cercana = null
