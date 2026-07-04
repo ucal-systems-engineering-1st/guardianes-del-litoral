@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6v2n7has2ts2"]
+
+[ext_resource type="Script" path="res://Scripts/Rooms/alga_roja.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://Resources/Player/sechura/red_algae.png" id="2_texture"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_col"]
+radius = 32.0
+
+[node name="AlgaRoja" type="Area2D"]
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("2_texture")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_col")
+
+[node name="Indicador" type="Label" parent="."]
+visible = false
+offset_left = -40.0
+offset_top = -45.0
+offset_right = 40.0
+offset_bottom = -22.0
+theme_override_font_sizes/font_size = 12
+text = "[ E ] Limpiar"
+horizontal_alignment = 1
