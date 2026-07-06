@@ -98,7 +98,7 @@ func _physics_process(delta: float) -> void:
 # PATRULLAJE POR WAYPOINTS
 # ---------------------------------------------------------------------------
 
-func _patrol(delta: float) -> void:
+func _patrol(_delta: float) -> void:
 	if _waypoints.is_empty():
 		return
 
@@ -111,7 +111,7 @@ func _patrol(delta: float) -> void:
 			_current_waypoint = (_current_waypoint + 1) % _waypoints.size()
 		else:
 			_current_waypoint = (_current_waypoint - 1 + _waypoints.size()) % _waypoints.size()
-		
+
 		# Al completar una órbita (regresa al waypoint 0), hay 50% de probabilidad de revertir sentido
 		if _current_waypoint == 0:
 			if randf() < 0.5:
@@ -169,7 +169,7 @@ func _fire_radial(target_pos: Vector2) -> void:
 	var base_dir: Vector2 = (target_pos - global_position).normalized()
 	# Disparamos 3 balas de cañón: central, y dos desviadas ±15 grados (0.26 radianes)
 	var angles := [-0.26, 0.0, 0.26]
-	
+
 	for angle in angles:
 		var dir := base_dir.rotated(angle)
 		var cannonball: CharacterBody2D = cannonball_scene.instantiate()

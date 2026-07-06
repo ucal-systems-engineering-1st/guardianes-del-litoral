@@ -4,7 +4,7 @@ extends Area2D
 func _ready() -> void:
 	add_to_group("conchas")
 	body_entered.connect(_on_body_entered)
-	
+
 	# Carga dinámica utilizando el path res:// directo que FileAccess y Image soportan
 	var tex = _cargar_textura_dinamica("res://Resources/Player/sechura/scallop_shell.png")
 	if tex:

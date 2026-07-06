@@ -12,4 +12,4 @@ func _on_enter(body):
 		modal.mostrar(nombre_lugar, func():
 			Transition.change_scene("res://Scenes/Rooms/ballestas_nivel.tscn")
 		);
-		
+

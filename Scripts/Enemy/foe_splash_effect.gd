@@ -14,11 +14,11 @@ func _ready() -> void:
 	# Transición de expansión de radio
 	var tween_rad := create_tween()
 	tween_rad.tween_property(self, "_radius", max_radius, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	
+
 	# Transición de desvanecimiento
 	var tween_alpha := create_tween()
 	tween_alpha.tween_property(self, "_alpha", 0.0, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	
+
 	# Eliminación automática al finalizar el efecto
 	tween_rad.finished.connect(queue_free)
 
@@ -30,10 +30,10 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	var draw_color := color
 	draw_color.a = _alpha
-	
+
 	# Burbuja central
 	draw_circle(Vector2.ZERO, _radius, draw_color)
-	
+
 	# Gotas periféricas que se expanden proporcionalmente
 	draw_circle(Vector2(-_radius * 0.6, -_radius * 0.4), _radius * 0.22, draw_color)
 	draw_circle(Vector2(_radius * 0.5, _radius * 0.5), _radius * 0.16, draw_color)

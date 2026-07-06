@@ -18,7 +18,7 @@ var _alpha: float = 0.7
 
 func _ready() -> void:
 	fire_direction = fire_direction.normalized()
-	
+
 	# Desvanecimiento de la línea
 	var tween := create_tween()
 	tween.tween_property(self, "_alpha", 0.0, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
@@ -35,7 +35,7 @@ func _draw() -> void:
 	var gap_length: float = 6.0
 	var total: float = 0.0
 	var start: Vector2 = Vector2.ZERO
-	
+
 	# Dibuja segmentos punteados a lo largo de la dirección de disparo
 	while total < line_length:
 		var end_dist: float = min(total + dash_length, line_length)
