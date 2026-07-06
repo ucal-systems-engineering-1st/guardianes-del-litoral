@@ -22,7 +22,7 @@ var _rebote_cooldown: float = 0.0
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
-	
+
 	# Intentar carga dinámica para evitar problemas de importación corrupta de Godot
 	var tex = _cargar_textura_dinamica("res://Resources/Player/marco/marco.png")
 	if tex:

@@ -95,7 +95,7 @@ func _physics_process(delta: float):
 
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://Scenes/Rooms/sea.tscn")
-		
+
 func get_keyboard_direction() -> Vector2:
 
 	var x = int(Input.is_action_pressed("ui_right")) - int(Input.is_action_pressed("ui_left"))

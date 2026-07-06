@@ -137,7 +137,7 @@ func _draw() -> void:
 	# ── 4. Astillas de Madera Voladoras (Polar → Cartesiana) ──────────────────
 	for splinter in _splinters:
 		var theta: float = splinter["theta"]
-		
+
 		# Cálculo de posición polar a cartesiana individual
 		var r: float = _progress * splinter["max_dist"]
 		var pos := Vector2(r * cos(theta), r * sin(theta))
