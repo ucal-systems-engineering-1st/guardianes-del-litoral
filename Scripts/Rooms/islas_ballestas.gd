@@ -10,7 +10,6 @@ func _on_enter(body):
 		var modal = get_parent().get_node("generic_modal")
 
 		modal.mostrar(nombre_lugar, func():
-			print("Explorando:", nombre_lugar)
-			# Aquí puedes poner lógica real:
-			# cambiar escena, iniciar misión, etc.
+			Transition.change_scene("res://Scenes/Rooms/ballestas_nivel.tscn")
 		);
+

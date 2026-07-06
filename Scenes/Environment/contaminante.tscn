@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://contaminante_scene"]
+
+[ext_resource type="Script" path="res://Scripts/Environment/contaminante.gd" id="1_cont"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cont"]
+radius = 18.0
+
+[node name="Contaminante" type="Area2D"]
+script = ExtResource("1_cont")
+collision_layer = 4
+collision_mask = 1
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_cont")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Mancha" type="Polygon2D" parent="Visual"]
+color = Color(0.1, 0.08, 0.05, 0.85)
+polygon = PackedVector2Array(-18, 0, -12, -14, 0, -18, 12, -14, 18, 0, 14, 12, 0, 18, -14, 12)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

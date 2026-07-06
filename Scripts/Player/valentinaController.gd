@@ -1,12 +1,17 @@
 extends CharacterBody2D
 
-@export var speed: int = 100
+@export var speed: int = 150
 
 @onready var sprite: Sprite2D = $Sprite2D
 
 
 var input_direction: Vector2 = Vector2.ZERO
 var last_direction: Vector2 = Vector2.DOWN
+
+var _knockback_dir: Vector2 = Vector2.ZERO
+var _knockback_speed: float = 0.0
+var _knockback_timer: float = 0.0
+const KNOCKBACK_DURATION: float = 0.45
 
 
 # Animación del spritesheet
@@ -26,12 +31,21 @@ enum Direction {
 }
 
 var current_direction: int = Direction.DOWN
-
+var gaviota_cercana: CharacterBody2D = null
+@export var objetivo_gaviotas := 3
+var gaviotas_espantadas := 0
 
 func _ready():
+	add_to_group("player")
 	sprite.hframes = 4
 	sprite.vframes = 4
 	sprite.frame = 0
+
+
+func apply_knockback(impulso: Vector2) -> void:
+	_knockback_dir = impulso.normalized()
+	_knockback_speed = impulso.length()
+	_knockback_timer = KNOCKBACK_DURATION
 
 
 func _physics_process(delta: float):
@@ -39,6 +53,15 @@ func _physics_process(delta: float):
 	if get_tree().paused:
 		velocity = Vector2.ZERO
 		move_and_slide()
+		return
+
+	if _knockback_timer > 0.0:
+		_knockback_timer -= delta
+		var t = clamp(_knockback_timer / KNOCKBACK_DURATION, 0.0, 1.0)
+		# sqrt da velocidad alta al inicio que frena rápido — sensación de impacto
+		velocity = _knockback_dir * _knockback_speed * sqrt(t)
+		move_and_slide()
+		update_animation(delta)
 		return
 
 	var keyboard_dir = get_keyboard_direction()
@@ -50,7 +73,28 @@ func _physics_process(delta: float):
 
 	update_direction()
 	update_animation(delta)
+	# Espantar gaviota con E
+	if Input.is_action_just_pressed("interact") and gaviota_cercana:
 
+		gaviota_cercana.queue_free()
+		gaviota_cercana = null
+
+		gaviotas_espantadas += 1
+
+		print("Gaviotas espantadas: ", gaviotas_espantadas, "/", objetivo_gaviotas)
+
+	if gaviotas_espantadas >= objetivo_gaviotas:
+
+		var modal = get_tree().current_scene.get_node("generic_modal")
+
+		modal.mostrar_texto(
+			"🎉 ¡MISIÓN COMPLETADA!\n\nHas protegido el tacho de basura y ahuyentado a todas las gaviotas.\n\nRegresando al mapa..."
+		)
+
+		await get_tree().create_timer(3.0).timeout
+
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://Scenes/Rooms/sea.tscn")
 
 func get_keyboard_direction() -> Vector2:
 
@@ -110,3 +154,11 @@ func update_animation(delta: float):
 		current_frame,
 		current_direction
 	)
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("gaviotas"):
+		gaviota_cercana = body
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body == gaviota_cercana:
+		gaviota_cercana = null

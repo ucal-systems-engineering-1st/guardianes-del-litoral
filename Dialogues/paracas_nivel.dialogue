@@ -1,0 +1,50 @@
+~ mision_1_inicio
+
+Dr. Alejandro Ramos: ¡Valentina! Por fin llegas. Soy el Dr. Alejandro Ramos, biólogo marino del SERNANP.
+
+Dr. Alejandro Ramos: La situación aquí en la playa de Paracas es urgente. Mira alrededor — los residuos plásticos están cubriendo la costa, arrastrados por la corriente de Humboldt.
+
+Dr. Alejandro Ramos: Estos plásticos son letales para nuestra especie clave: la tortuga marina verde, "Chelonia mydas". Las tortugas las confunden con medusas y las ingieren.
+
+Dr. Alejandro Ramos: ¿Qué deseas saber antes de comenzar?
+
+- ¡Acepto la misión! Empiezo ya. => mision_aceptada
+- ¿Por qué los plásticos son tan peligrosos aquí? => info_plasticos
+- ¿Qué debo hacer exactamente? => info_tarea
+
+
+~ info_plasticos
+
+Dr. Alejandro Ramos: Excelente pregunta. La Reserva Nacional de Paracas recibe toneladas de plástico al año — bolsas, botellas, redes de pesca abandonadas.
+
+Dr. Alejandro Ramos: Las tortugas verdes tienen una visión que no distingue plástico transparente del agua. Ingieren bolsas creyendo que son medusas, lo que les obtura el estómago y les provoca la muerte.
+
+Dr. Alejandro Ramos: Además, al degradarse, los plásticos se fragmentan en microplásticos que contaminan toda la cadena trófica marina.
+
+Dr. Alejandro Ramos: ¿Lista para actuar?
+
+- Sí, entiendo la urgencia. ¡Vamos! => mision_aceptada
+
+
+~ info_tarea
+
+Dr. Alejandro Ramos: Tu misión es recorrer la playa y eliminar los focos de contaminación que aparecen en la zona.
+
+Dr. Alejandro Ramos: Cada foco de basura que limpies es un área que queda libre para que las tortugas aniden sin riesgo.
+
+Dr. Alejandro Ramos: Cuando hayas limpiado todos los focos, regresa a informarme los resultados.
+
+Dr. Alejandro Ramos: ¿Preparada?
+
+- ¡Sí, comenzaré ahora mismo! => mision_aceptada
+
+
+~ mision_aceptada
+
+Dr. Alejandro Ramos: Perfecto. Recuerda: cada bolsa que retiras puede salvar la vida de una tortuga.
+
+Dr. Alejandro Ramos: La Chelonia mydas puede vivir hasta 80 años. Con tu ayuda, tendrá la oportunidad de llegar a esa edad.
+
+Dr. Alejandro Ramos: Yo estaré monitoreando desde el campamento. ¡Suerte, Valentina! El litoral te lo agradece.
+
+=> END

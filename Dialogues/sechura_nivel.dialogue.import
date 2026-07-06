@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://ushvtg1m6axl"
+path="res://.godot/imported/sechura_nivel.dialogue-78c76de0d6c0edaae43f255a5d64a6fb.tres"
+
+[deps]
+
+source_file="res://Dialogues/sechura_nivel.dialogue"
+dest_files=["res://.godot/imported/sechura_nivel.dialogue-78c76de0d6c0edaae43f255a5d64a6fb.tres"]
+
+[params]
+
+defaults=true

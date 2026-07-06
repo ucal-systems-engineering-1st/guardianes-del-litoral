@@ -24,6 +24,9 @@ shader_parameter/threshold = 0.85
 [sub_resource type="CircleShape2D" id="CircleShape2D_val"]
 radius = 20.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q74yr"]
+size = Vector2(39, 53)
+
 [node name="Valentina" type="CharacterBody2D" unique_id=2073931472]
 z_index = 10
 scale = Vector2(2, 2)
@@ -40,3 +43,9 @@ vframes = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=826323432]
 position = Vector2(0, 8)
 shape = SubResource("CircleShape2D_val")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1773968278]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1941703509]
+position = Vector2(-1.5, 4.5)
+shape = SubResource("RectangleShape2D_q74yr")

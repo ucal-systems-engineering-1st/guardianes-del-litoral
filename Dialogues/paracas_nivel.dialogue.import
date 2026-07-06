@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://kao4lcwso3om"
+path="res://.godot/imported/paracas_nivel.dialogue-14b560ff869832c1249947e90544c4ba.tres"
+
+[deps]
+
+source_file="res://Dialogues/paracas_nivel.dialogue"
+dest_files=["res://.godot/imported/paracas_nivel.dialogue-14b560ff869832c1249947e90544c4ba.tres"]
+
+[params]
+
+defaults=true
